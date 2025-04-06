@@ -8,16 +8,19 @@ import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.example.monogatarireaders.core.ui.theme.PrimaryBlack
 import com.example.monogatarireaders.core.ui.theme.PrimaryWhite
 import com.example.monogatarireaders.router.data.NavigationData
+import com.example.monogatarireaders.router.data.states.LocalRouter
+import com.example.monogatarireaders.router.data.states.currentRoute
+import com.example.monogatarireaders.router.data.states.navigateTo
 
 @Composable
-fun BottomNavigationBar(routeSelected : MutableState<String>, modifier: Modifier = Modifier) {
+fun BottomNavigationBar( modifier: Modifier = Modifier) {
+    val currentRoute = LocalRouter.current
     val routes = NavigationData.routes
 
     NavigationBar(
@@ -30,9 +33,9 @@ fun BottomNavigationBar(routeSelected : MutableState<String>, modifier: Modifier
             NavigationBarItem(
                 icon = { Icon(item.icon, contentDescription = item.contentDescription) },
                 label = { Text(item.label) },
-                selected = routeSelected.value == item.label,
+                selected = currentRoute.currentRoute() == item.label,
                 onClick = {
-                    routeSelected.value = item.label
+                    currentRoute.navigateTo(item.label)
                 },
                 colors = NavigationBarItemDefaults.colors(
                     selectedIconColor = item.color,

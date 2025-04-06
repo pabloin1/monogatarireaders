@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -18,11 +17,9 @@ import com.example.monogatarireaders.shared.ui.layouts.AppLayout
 
 @Composable
 fun DiscoverMangaScreen(
-    currentRoute : MutableState<String>,
     viewModel: DiscoverMangaViewModel = remember { DiscoverMangaViewModel() }
 ) {
     AppLayout(
-        routeSelected = currentRoute,
         children = {
             Column(
                 modifier = Modifier

@@ -7,10 +7,10 @@ import androidx.lifecycle.ViewModel
 
 class DiscoverMangaViewModel : ViewModel() {
 
-    private val repository = MangaRepository()
+    private val _discoverMangaRepository = MangaRepository()
 
-    val trendingManga: List<MangaAdapter> = repository.getTrendingManga()
-    val allManga: List<MangaAdapter> = repository.getAllManga()
+    val trendingManga: List<MangaAdapter> = _discoverMangaRepository.getTrendingManga()
+    val allManga: List<MangaAdapter> = _discoverMangaRepository.getAllManga()
 
     fun getMangaDetails(mangaId: String): MangaAdapter? {
         return allManga.find { it.id == mangaId }
