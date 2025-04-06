@@ -1,4 +1,4 @@
-package com.example.monogatarireaders.manga_detail.ui.composables
+package com.example.monogatarireaders.manga_detail.ui.composables.top_manga_detail.banner_manga
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background

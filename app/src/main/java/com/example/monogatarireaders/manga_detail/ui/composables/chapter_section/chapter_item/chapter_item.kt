@@ -1,4 +1,4 @@
-package com.example.monogatarireaders.manga_detail.ui.composables
+package com.example.monogatarireaders.manga_detail.ui.composables.chapter_section.chapter_item
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -117,7 +117,8 @@ fun ChapterItem(
                 modifier = Modifier
                     .width(80.dp)
                     .height(40.dp),
-                fontSize = 12.sp
+                fontSize = 12.sp,
+                borderRadius = 8.dp,
             )
         }
     }

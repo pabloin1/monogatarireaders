@@ -1,4 +1,4 @@
-package com.example.monogatarireaders.manga_detail.ui.composables
+package com.example.monogatarireaders.manga_detail.ui.composables.chapter_section
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -17,6 +17,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.monogatarireaders.manga_detail.domain.adapters.MangaDetailAdapter
 import com.example.monogatarireaders.manga_detail.domain.models.ChapterSortOrder
+import com.example.monogatarireaders.manga_detail.ui.composables.chapter_section.chapter_item.ChapterItem
+import com.example.monogatarireaders.manga_detail.ui.composables.chapter_section.sort_dropdown.SortDropdown
 
 @Composable
 fun ChaptersSection(
@@ -47,7 +49,7 @@ fun ChaptersSection(
                 horizontalArrangement = Arrangement.SpaceBetween
             ){
                 Text(text = "Sort by: ", color = Color.Gray, fontSize = 14.sp)
-                SortDropdown(selectedOption = sorteBy.toString(), onOptionSelected = onSortOrder)
+                SortDropdown(selectedOption = sorteBy.value, onOptionSelected = onSortOrder)
             }
         }
 

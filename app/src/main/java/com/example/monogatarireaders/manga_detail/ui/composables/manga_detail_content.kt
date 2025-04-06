@@ -10,18 +10,17 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.monogatarireaders.core.ui.theme.PrimaryWhite
 import com.example.monogatarireaders.manga_detail.domain.adapters.MangaDetailAdapter
 import com.example.monogatarireaders.manga_detail.domain.models.ChapterSortOrder
+import com.example.monogatarireaders.manga_detail.ui.composables.chapter_section.ChaptersSection
+import com.example.monogatarireaders.manga_detail.ui.composables.status_info.StatusInfo
+import com.example.monogatarireaders.manga_detail.ui.composables.synopsis_section.SynopsisSection
+import com.example.monogatarireaders.manga_detail.ui.composables.top_manga_detail.TopContentMangaDetail
 import com.example.monogatarireaders.shared.ui.composables.CustomOutlinedButton
 import com.example.monogatarireaders.shared.ui.composables.GlowingButton
 
@@ -46,29 +45,9 @@ fun MangaDetailContent(
            onFavoriteClick = onFavoriteClick,
            onShareClick = onShareClick,
        )
-
         StatusInfo(mangaDetail = mangaDetail)
 
-        // Synopsis section
-        Column(
-            modifier = Modifier.padding(16.dp)
-        ) {
-            Text(
-                text = "Synopsis",
-                color = PrimaryWhite,
-                fontSize = 18.sp,
-                fontWeight = FontWeight.Bold,
-                modifier = Modifier.padding(bottom = 8.dp)
-            )
-
-            Text(
-                textAlign = TextAlign.Justify,
-                text = mangaDetail.synopsis,
-                color = Color.LightGray,
-                fontSize = 14.sp,
-                lineHeight = 20.sp
-            )
-        }
+        SynopsisSection(synopsis = mangaDetail.synopsis)
 
         // Action buttons
         Row(
@@ -78,8 +57,8 @@ fun MangaDetailContent(
             horizontalArrangement = Arrangement.spacedBy(16.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            GlowingButton(text =  "START READING", onClick = onStartReading)
-            CustomOutlinedButton(onClick = onAddToLibrary, text = "ADD TO LIBRARY")
+            GlowingButton(text =  "START READING", onClick = onStartReading, borderRadius = 10.dp)
+            CustomOutlinedButton(onClick = onAddToLibrary, text = "ADD TO LIBRARY" , borderRadius = 10.dp, fontSize = 14.sp)
         }
 
         Spacer(modifier = Modifier.height(14.dp))

@@ -23,6 +23,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.Fill
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -35,6 +36,7 @@ fun GlowingButton(
     blurInitialValue : Float = 8f,
     blurTargetValue : Float = 13f,
     fontSize : TextUnit = 17.sp,
+    borderRadius : Dp = 24.dp,
 ) {
     val infiniteTransition = rememberInfiniteTransition(label = "GlowingButton")
     val animatedGlow = infiniteTransition.animateFloat(
@@ -52,7 +54,7 @@ fun GlowingButton(
             .drawBehind {
                 drawRoundRect(
                     color = GlowingYellow,
-                    cornerRadius = CornerRadius(24.dp.toPx()),
+                    cornerRadius = CornerRadius(borderRadius.toPx()),
                     size = size,
                     alpha = 0.8f,
                     style = Fill,
@@ -62,7 +64,7 @@ fun GlowingButton(
                     color = GlowingYellow,
                     topLeft = Offset(-animatedGlow.value, -animatedGlow.value),
                     size = Size(size.width + animatedGlow.value * 2, size.height + animatedGlow.value * 2),
-                    cornerRadius = CornerRadius(24.dp.toPx() + animatedGlow.value),
+                    cornerRadius = CornerRadius(borderRadius.toPx() + animatedGlow.value),
                     alpha = 0.4f
                 )
             }
@@ -73,7 +75,7 @@ fun GlowingButton(
             colors = ButtonDefaults.buttonColors(
                 containerColor = GlowingYellow
             ),
-            shape = RoundedCornerShape(24.dp)
+            shape = RoundedCornerShape(borderRadius)
         ) {
             Text(
                 textAlign = TextAlign.Center,

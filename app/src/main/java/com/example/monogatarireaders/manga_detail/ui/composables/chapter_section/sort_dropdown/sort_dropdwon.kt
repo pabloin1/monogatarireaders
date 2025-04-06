@@ -1,4 +1,4 @@
-package com.example.monogatarireaders.manga_detail.ui.composables
+package com.example.monogatarireaders.manga_detail.ui.composables.chapter_section.sort_dropdown
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -21,7 +21,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -36,11 +35,6 @@ fun SortDropdown(
     onOptionSelected: (ChapterSortOrder) -> Unit
 ) {
     val options = listOf(ChapterSortOrder.NEWEST, ChapterSortOrder.OLDEST)
-    val selectedText = when (selectedOption) {
-        ChapterSortOrder.NEWEST.toString() -> ChapterSortOrder.NEWEST.toString()
-        ChapterSortOrder.OLDEST.toString() -> ChapterSortOrder.OLDEST.toString()
-        else -> ChapterSortOrder.NEWEST.toString()
-    }
     var expanded by remember { mutableStateOf(false) }
 
     Box {
@@ -59,7 +53,7 @@ fun SortDropdown(
             Text(
                 text = selectedOption,
                 color = PrimaryWhite,
-                fontSize = 14.sp,
+                fontSize = 12.sp,
                 fontWeight = FontWeight.Bold,
             )
             Icon(
@@ -76,7 +70,7 @@ fun SortDropdown(
         ) {
             options.forEach { option ->
                 DropdownMenuItem(
-                    text = { Text(option.toString()) },
+                    text = { Text(option.value, fontSize = 12.sp) },
                     onClick = {
                         val selectedOrder = when (option) {
                             ChapterSortOrder.NEWEST -> ChapterSortOrder.NEWEST

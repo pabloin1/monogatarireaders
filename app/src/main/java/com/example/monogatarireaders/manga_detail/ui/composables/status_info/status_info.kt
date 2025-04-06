@@ -1,4 +1,4 @@
-package com.example.monogatarireaders.manga_detail.ui.composables
+package com.example.monogatarireaders.manga_detail.ui.composables.status_info
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -15,7 +15,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.monogatarireaders.manga_detail.domain.adapters.MangaDetailAdapter
@@ -26,7 +25,8 @@ fun StatusInfo(mangaDetail : MangaDetailAdapter) {
         modifier = Modifier
             .fillMaxWidth()
             .padding(16.dp),
-        horizontalArrangement = Arrangement.SpaceBetween
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             Text(
@@ -50,38 +50,13 @@ fun StatusInfo(mangaDetail : MangaDetailAdapter) {
             )
         }
 
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            Text(
-                text = mangaDetail.rating.toString(),
-                color = Color.White,
-                fontSize = 16.sp,
-                fontWeight = FontWeight.Bold
-            )
-
-            Spacer(modifier = Modifier.width(4.dp))
-
-            Text(
-                text = "Rating",
-                color = Color.Gray,
-                fontSize = 14.sp
-            )
-
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Center,
+        ) {
+            StatusItem(titleValue = "Rating", value = mangaDetail.rating.toString())
             Spacer(modifier = Modifier.width(16.dp))
-
-            Text(
-                text = "${mangaDetail.chapters.size}",
-                color = Color.White,
-                fontSize = 16.sp,
-                fontWeight = FontWeight.Bold
-            )
-
-            Spacer(modifier = Modifier.width(4.dp))
-
-            Text(
-                text = "Chapters",
-                color = Color.Gray,
-                fontSize = 14.sp
-            )
+            StatusItem(titleValue = "Chapters", value = mangaDetail.chapters.size.toString())
         }
     }
 }

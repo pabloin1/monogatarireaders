@@ -1,4 +1,4 @@
-package com.example.monogatarireaders.manga_detail.ui.composables
+package com.example.monogatarireaders.manga_detail.ui.composables.top_manga_detail
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -8,6 +8,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.monogatarireaders.manga_detail.domain.adapters.MangaDetailAdapter
+import com.example.monogatarireaders.manga_detail.ui.composables.top_manga_detail.banner_manga.BannerManga
+import com.example.monogatarireaders.manga_detail.ui.composables.top_manga_detail.top_button_section.TopButtonSection
+import com.example.monogatarireaders.manga_detail.ui.composables.top_manga_detail.top_manga_info.TopMangaInfo
 
 @Composable
 fun TopContentMangaDetail(
@@ -25,8 +28,8 @@ fun TopContentMangaDetail(
         TopButtonSection(
             firstPosition = Modifier.align(Alignment.TopStart),
             secondPosition = Modifier.align(Alignment.TopEnd),
-            onFavoriteClick = {},
-            onShareClick = {},
+            onFavoriteClick = onFavoriteClick,
+            onShareClick = onShareClick,
         )
     }
 
