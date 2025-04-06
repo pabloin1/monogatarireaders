@@ -7,8 +7,7 @@ import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -23,6 +22,8 @@ import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.Fill
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.monogatarireaders.core.ui.theme.GlowingYellow
@@ -33,6 +34,7 @@ fun GlowingButton(
     text : String ,onClick: () -> Unit,
     blurInitialValue : Float = 8f,
     blurTargetValue : Float = 13f,
+    fontSize : TextUnit = 17.sp,
 ) {
     val infiniteTransition = rememberInfiniteTransition(label = "GlowingButton")
     val animatedGlow = infiniteTransition.animateFloat(
@@ -46,7 +48,7 @@ fun GlowingButton(
 
     Box(
         modifier = modifier
-            .height(48.dp)
+            .defaultMinSize( minHeight = 38.dp)
             .drawBehind {
                 drawRoundRect(
                     color = GlowingYellow,
@@ -67,17 +69,18 @@ fun GlowingButton(
     ) {
         Button(
             onClick = onClick,
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier.defaultMinSize( minHeight = 38.dp),
             colors = ButtonDefaults.buttonColors(
                 containerColor = GlowingYellow
             ),
             shape = RoundedCornerShape(24.dp)
         ) {
             Text(
+                textAlign = TextAlign.Center,
                 text = text,
                 color = Color.Black,
                 fontWeight = FontWeight.ExtraBold,
-                fontSize = 17.sp,
+                fontSize = fontSize,
             )
         }
     }

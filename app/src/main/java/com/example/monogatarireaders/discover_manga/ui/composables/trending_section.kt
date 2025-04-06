@@ -18,7 +18,6 @@ import com.example.monogatarireaders.discover_manga.domain.adapters.MangaAdapter
 @Composable
 fun TrendingSection(
     trendingManga: List<MangaAdapter>,
-    onMangaClick: (MangaAdapter) -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -39,7 +38,6 @@ fun TrendingSection(
             items(trendingManga) { manga ->
                 TrendingMangaCard(
                     manga = manga,
-                    onClick = { onMangaClick(manga) }
                 )
             }
         }

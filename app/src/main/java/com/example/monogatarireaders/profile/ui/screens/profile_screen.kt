@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.monogatarireaders.core.ui.theme.PrimaryBlack
@@ -20,7 +21,9 @@ import com.example.monogatarireaders.shared.ui.layouts.AppLayout
 
 @Composable
 fun ProfileScreen(
-    profileViewModel: ProfileViewModel = ProfileViewModel()
+    profileViewModel: ProfileViewModel = remember {
+        ProfileViewModel()
+    }
 ) {
    AppLayout {
        Column(

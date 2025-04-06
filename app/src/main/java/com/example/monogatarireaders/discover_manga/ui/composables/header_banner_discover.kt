@@ -82,7 +82,8 @@ fun HeaderBannerDiscover(
 
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(18.dp)
+                horizontalArrangement = Arrangement.spacedBy(18.dp),
+                verticalAlignment = Alignment.CenterVertically
             ) {
                 GlowingButton(
                     modifier =  Modifier.weight(1f),

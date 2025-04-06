@@ -33,7 +33,6 @@ fun DiscoverMangaScreen(
                 Spacer(modifier = Modifier.height(16.dp))
                 TrendingSection(
                     trendingManga = viewModel.trendingManga,
-                    onMangaClick = { viewModel.onMangaClicked(it) }
                 )
             }
     })

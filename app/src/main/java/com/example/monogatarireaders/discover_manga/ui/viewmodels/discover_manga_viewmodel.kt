@@ -10,16 +10,6 @@ class DiscoverMangaViewModel : ViewModel() {
     private val _discoverMangaRepository = MangaRepository()
 
     val trendingManga: List<MangaAdapter> = _discoverMangaRepository.getTrendingManga()
-    val allManga: List<MangaAdapter> = _discoverMangaRepository.getAllManga()
-
-    fun getMangaDetails(mangaId: String): MangaAdapter? {
-        return allManga.find { it.id == mangaId }
-    }
-
-
-    fun onMangaClicked(manga: MangaAdapter) {
-
-    }
 
     fun onStartReadingClicked() {
 

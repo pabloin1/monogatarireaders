@@ -12,7 +12,7 @@ class LibraryRepository {
     private val libraryManga = listOf(
         LibraryItemAdapter(
             id = 1,
-            title = "Jujutsu Kaisen",
+            title = "Chainsaw Man",
             coverResourceId = R.drawable.tokyo_ghoul_presentation,
             chaptersRead = 215,
             totalChapters = 245,
@@ -22,7 +22,7 @@ class LibraryRepository {
         ),
         LibraryItemAdapter(
             id = 2,
-            title = "Chainsaw Man",
+            title = "Jujutsu Kaisen",
             coverResourceId = R.drawable.tokyo_ghoul_presentation,
             chaptersRead = 120,
             totalChapters = 140,
@@ -32,7 +32,7 @@ class LibraryRepository {
         ),
         LibraryItemAdapter(
             id = 3,
-            title = "One Piece",
+            title = "Demon Slayer",
             coverResourceId = R.drawable.tokyo_ghoul_presentation,
             chaptersRead = 1085,
             totalChapters = 1098,
@@ -42,7 +42,7 @@ class LibraryRepository {
         ),
         LibraryItemAdapter(
             id = 4,
-            title = "Tokyo Ghoul",
+            title = "One Piece",
             coverResourceId = R.drawable.tokyo_ghoul_presentation,
             chaptersRead = 143,
             totalChapters = 143,
@@ -52,10 +52,20 @@ class LibraryRepository {
         ),
         LibraryItemAdapter(
             id = 5,
-            title = "Demon Slayer",
+            title = "My Hero Academia",
             coverResourceId = R.drawable.tokyo_ghoul_presentation,
             chaptersRead = 205,
             totalChapters = 205,
+            lastReadChapter = 205,
+            lastReadDaysAgo = 14,
+            isUpdated = false
+        ),
+        LibraryItemAdapter(
+            id = 6,
+            title = "Tokyo Revengers",
+            coverResourceId = R.drawable.tokyo_ghoul_presentation,
+            chaptersRead = 205,
+            totalChapters = 290,
             lastReadChapter = 205,
             lastReadDaysAgo = 14,
             isUpdated = false

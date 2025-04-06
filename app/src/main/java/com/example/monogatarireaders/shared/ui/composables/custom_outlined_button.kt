@@ -1,5 +1,6 @@
 package com.example.monogatarireaders.shared.ui.composables
 
+import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ButtonDefaults
@@ -10,6 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
@@ -22,7 +24,7 @@ fun CustomOutlinedButton(
     OutlinedButton(
         onClick = { onClick() },
         modifier = modifier
-            .height(48.dp),
+            .defaultMinSize( minHeight = 48.dp),
         colors = ButtonDefaults.outlinedButtonColors(
             contentColor = Color.White
         ),
@@ -34,6 +36,7 @@ fun CustomOutlinedButton(
         shape = RoundedCornerShape(24.dp)
     ) {
         Text(
+            textAlign = TextAlign.Center,
             text = text,
             color = Color.White,
             fontWeight = FontWeight.ExtraBold,

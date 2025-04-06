@@ -10,6 +10,9 @@ import com.example.monogatarireaders.router.domain.models.NavBarItem
 
 object NavigationData {
     val not_found_screen = "NOT_FOUND_SCREEN"
+    val manga_detail = "detail"
+    // Function to generate the detail route with a specific ID
+    fun detailRoute(id: String): String = "$manga_detail/$id"
     val home = NavBarItem(
         Icons.Default.Home,
         "Home",

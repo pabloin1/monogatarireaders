@@ -3,6 +3,7 @@ package com.example.monogatarireaders.router.ui.view
 import androidx.compose.animation.Crossfade
 import androidx.compose.runtime.Composable
 import com.example.monogatarireaders.discover_manga.ui.screens.DiscoverMangaScreen
+import com.example.monogatarireaders.manga_detail.ui.screens.MangaDetailScreen
 import com.example.monogatarireaders.not_found.ui.screens.NotFoundScreen
 import com.example.monogatarireaders.profile.ui.screens.ProfileScreen
 import com.example.monogatarireaders.router.data.NavigationData
@@ -17,13 +18,17 @@ fun RouterView() {
     Crossfade(
         targetState = currentRoute.currentRoute(),
         label = "RouterView"
-    ) {
-        when (it) {
-            NavigationData.discover.label -> {
+    ) { route ->
+        when {
+            route == NavigationData.discover.label -> {
                 DiscoverMangaScreen()
             }
-            NavigationData.profile.label -> {
+            route == NavigationData.profile.label -> {
                 ProfileScreen()
+            }
+            route.startsWith("${NavigationData.manga_detail}/") -> {
+                val id = route.substringAfter("${NavigationData.manga_detail}/")
+                MangaDetailScreen(mangaId = id.toInt())
             }
             else -> {
                 NotFoundScreen(

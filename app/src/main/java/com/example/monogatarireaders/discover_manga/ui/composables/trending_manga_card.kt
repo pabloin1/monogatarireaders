@@ -31,16 +31,21 @@ import com.example.monogatarireaders.core.ui.theme.GlowingYellow
 import com.example.monogatarireaders.core.ui.theme.PrimaryBlack
 import com.example.monogatarireaders.core.ui.theme.PrimaryWhite
 import com.example.monogatarireaders.discover_manga.domain.adapters.MangaAdapter
+import com.example.monogatarireaders.router.data.NavigationData
+import com.example.monogatarireaders.router.data.states.LocalRouter
+import com.example.monogatarireaders.router.data.states.navigateTo
 
 @Composable
 fun TrendingMangaCard(
     manga: MangaAdapter,
-    onClick: () -> Unit
 ) {
+    val route = LocalRouter.current
     Column(
         modifier = Modifier
             .width(120.dp)
-            .clickable(onClick = onClick),
+            .clickable(onClick = {
+                route.navigateTo(NavigationData.detailRoute(manga.id.toString()))
+            }),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Box(

@@ -3,10 +3,12 @@ package com.example.monogatarireaders.profile.ui.composables.library_section
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -30,16 +32,20 @@ import com.example.monogatarireaders.core.ui.theme.BackgroundGrayItem
 import com.example.monogatarireaders.core.ui.theme.BorderGray
 import com.example.monogatarireaders.core.ui.theme.GlowingYellow
 import com.example.monogatarireaders.profile.domain.adapters.LibraryItemAdapter
+import com.example.monogatarireaders.router.data.NavigationData
+import com.example.monogatarireaders.router.data.states.LocalRouter
+import com.example.monogatarireaders.router.data.states.navigateTo
 
 @Composable
 fun LibraryItem(
     libraryItem: LibraryItemAdapter
 ) {
+    val route = LocalRouter.current
     val progress = libraryItem.chaptersRead.toFloat() / libraryItem.totalChapters
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .height(110.dp)
+            .defaultMinSize(minHeight = 110.dp)
             .clip(
                 shape = RoundedCornerShape(12.dp)
             )
@@ -49,7 +55,8 @@ fun LibraryItem(
                 shape = RoundedCornerShape(12.dp)
             )
             .background(BackgroundGrayItem)
-            .padding(15.dp),
+            .padding(15.dp)
+            .clickable { route.navigateTo(NavigationData.detailRoute(libraryItem.id.toString())) },
         verticalAlignment = Alignment.CenterVertically
     ) {
         Image(
@@ -57,6 +64,7 @@ fun LibraryItem(
             contentDescription = "Manga Cover",
             modifier = Modifier
                 .width(60.dp)
+                .height(80.dp)
                 .clip(RoundedCornerShape(8.dp)),
             contentScale = ContentScale.Crop
         )

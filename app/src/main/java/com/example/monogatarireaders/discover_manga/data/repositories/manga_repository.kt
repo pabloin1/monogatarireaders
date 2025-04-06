@@ -16,7 +16,7 @@ class MangaRepository {
     // Mock data
     private val allManga = listOf(
         MangaAdapter(
-            id = "chainsaw-man",
+            id = 1,
             title = "Chainsaw Man",
             coverImageResId = R.drawable.tokyo_ghoul_presentation,
             author = "Tatsuki Fujimoto",
@@ -25,7 +25,7 @@ class MangaRepository {
             isTrending = true
         ),
         MangaAdapter(
-            id = "jujutsu-kaisen",
+            id = 2,
             title = "Jujutsu Kaisen",
             coverImageResId = R.drawable.tokyo_ghoul_presentation,
             author = "Gege Akutami",
@@ -34,7 +34,7 @@ class MangaRepository {
             isTrending = true
         ),
         MangaAdapter(
-            id = "demon-slayer",
+            id = 3,
             title = "Demon Slayer",
             coverImageResId = R.drawable.tokyo_ghoul_presentation,
             author = "Koyoharu Gotouge",
@@ -43,7 +43,7 @@ class MangaRepository {
             isTrending = true
         ),
         MangaAdapter(
-            id = "one-piece",
+            id = 4,
             title = "One Piece",
             coverImageResId = R.drawable.tokyo_ghoul_presentation,
             author = "Eiichiro Oda",
@@ -52,7 +52,7 @@ class MangaRepository {
             isTrending = true
         ),
         MangaAdapter(
-            id = "my-hero-academia",
+            id = 5,
             title = "My Hero Academia",
             coverImageResId = R.drawable.tokyo_ghoul_presentation,
             author = "Kohei Horikoshi",
@@ -61,7 +61,7 @@ class MangaRepository {
             isTrending = true
         ),
         MangaAdapter(
-            id = "tokyo-revengers",
+            id = 6,
             title = "Tokyo Revengers",
             coverImageResId = R.drawable.tokyo_ghoul_presentation,
             author = "Ken Wakui",
