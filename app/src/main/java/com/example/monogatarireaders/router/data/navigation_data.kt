@@ -9,6 +9,7 @@ import com.example.monogatarireaders.core.ui.theme.GlowingYellow
 import com.example.monogatarireaders.router.domain.models.NavBarItem
 
 object NavigationData {
+    val not_found_screen = "NOT_FOUND_SCREEN"
     val home = NavBarItem(
         Icons.Default.Home,
         "Home",

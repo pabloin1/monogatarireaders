@@ -28,11 +28,16 @@ import androidx.compose.ui.unit.sp
 import com.example.monogatarireaders.core.ui.theme.GlowingYellow
 
 @Composable
-fun GlowingButton(modifier: Modifier = Modifier ,text : String ,onClick: () -> Unit) {
+fun GlowingButton(
+    modifier: Modifier = Modifier ,
+    text : String ,onClick: () -> Unit,
+    blurInitialValue : Float = 8f,
+    blurTargetValue : Float = 13f,
+) {
     val infiniteTransition = rememberInfiniteTransition(label = "GlowingButton")
     val animatedGlow = infiniteTransition.animateFloat(
-        initialValue = 8f,
-        targetValue = 13f,
+        initialValue = blurInitialValue,
+        targetValue = blurTargetValue,
         animationSpec = infiniteRepeatable(
             animation = tween(durationMillis = 1500, easing = FastOutSlowInEasing),
             repeatMode = RepeatMode.Reverse

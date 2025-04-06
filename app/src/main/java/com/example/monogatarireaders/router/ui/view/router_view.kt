@@ -3,10 +3,12 @@ package com.example.monogatarireaders.router.ui.view
 import androidx.compose.animation.Crossfade
 import androidx.compose.runtime.Composable
 import com.example.monogatarireaders.discover_manga.ui.screens.DiscoverMangaScreen
+import com.example.monogatarireaders.not_found.ui.screens.NotFoundScreen
 import com.example.monogatarireaders.profile.ui.screens.ProfileScreen
 import com.example.monogatarireaders.router.data.NavigationData
 import com.example.monogatarireaders.router.data.states.LocalRouter
 import com.example.monogatarireaders.router.data.states.currentRoute
+import com.example.monogatarireaders.router.data.states.navigateTo
 
 @Composable
 fun RouterView() {
@@ -24,7 +26,11 @@ fun RouterView() {
                 ProfileScreen()
             }
             else -> {
-                // Handle other routes or show a default screen
+                NotFoundScreen(
+                    onBackClicked = {
+                        currentRoute.navigateTo(NavigationData.discover.label)
+                    }
+                )
             }
         }
     }
