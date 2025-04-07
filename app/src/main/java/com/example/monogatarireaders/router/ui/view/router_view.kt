@@ -8,6 +8,7 @@ import com.example.monogatarireaders.manga_chapter.ui.screens.MangaChapterScreen
 import com.example.monogatarireaders.manga_detail.ui.screens.MangaDetailScreen
 import com.example.monogatarireaders.not_found.ui.screens.NotFoundScreen
 import com.example.monogatarireaders.profile.ui.screens.ProfileScreen
+import com.example.monogatarireaders.register.ui.screen.RegisterScreen
 import com.example.monogatarireaders.router.data.NavigationData
 import com.example.monogatarireaders.router.data.states.LocalRouter
 import com.example.monogatarireaders.router.data.states.currentRoute
@@ -24,6 +25,9 @@ fun RouterView(){
         when {
             route == NavigationData.login -> {
                 LoginScreen()
+            }
+            route == NavigationData.register -> {
+                RegisterScreen()
             }
             route == NavigationData.discover.label -> {
                 DiscoverMangaScreen()

@@ -9,6 +9,7 @@ import com.example.monogatarireaders.login.ui.viewmodel.LoginViewModel
 import com.example.monogatarireaders.manga_chapter.ui.viewmodel.MangaChapterViewmodel
 import com.example.monogatarireaders.manga_detail.ui.viewmodels.MangaDetailViewModel
 import com.example.monogatarireaders.profile.ui.viewmodels.ProfileViewModel
+import com.example.monogatarireaders.register.ui.viewmodel.RegisterViewModel
 
 class ViewModelManager(private val context: Context) {
 
@@ -35,6 +36,10 @@ class ViewModelManager(private val context: Context) {
 
     val loginViewmodel : LoginViewModel by lazy {
         getViewModel(LoginViewModel::class.java)
+    }
+
+    val registerViewModel : RegisterViewModel by lazy {
+        getViewModel(RegisterViewModel::class.java)
     }
 
     val mangaChapterViewmodel : MangaChapterViewmodel by lazy {

@@ -1,4 +1,4 @@
-package com.example.monogatarireaders.login.ui.screen
+package com.example.monogatarireaders.register.ui.screen
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Lock
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -34,9 +35,9 @@ import com.example.monogatarireaders.shared.ui.composables.AuthTextField
 import com.example.monogatarireaders.shared.ui.composables.MonogatariTitle
 
 @Composable
-fun LoginScreen() {
+fun RegisterScreen() {
     val router = LocalRouter.current
-    val viewmodel = LocalViewModelProvider.current.loginViewmodel
+    val viewmodel = LocalViewModelProvider.current.registerViewModel
     val gradientBackground = Brush.verticalGradient(
         colors = listOf(
             BackgroundBlue,
@@ -55,20 +56,32 @@ fun LoginScreen() {
                 .padding(24.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Spacer(modifier = Modifier.height(48.dp))
+            Spacer(modifier = Modifier.height(36.dp))
 
+            // Stylized title
             MonogatariTitle("Monogatari")
 
             Spacer(modifier = Modifier.height(16.dp))
 
             Text(
-                "Login to continue your story",
+                "Begin your new story",
                 color = PrimaryWhite,
                 fontSize = 16.sp
             )
 
-            Spacer(modifier = Modifier.height(48.dp))
+            Spacer(modifier = Modifier.height(36.dp))
 
+            // Username field
+            AuthTextField(
+                value = viewmodel.username.value,
+                onValueChange = { viewmodel.username.value = it },
+                placeholder = "Username",
+                leadingIcon = Icons.Default.Person
+            )
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            // Email field
             AuthTextField(
                 value = viewmodel.email.value,
                 onValueChange = { viewmodel.email.value = it },
@@ -78,6 +91,7 @@ fun LoginScreen() {
 
             Spacer(modifier = Modifier.height(16.dp))
 
+            // Password field
             AuthTextField(
                 value = viewmodel.password.value,
                 onValueChange = { viewmodel.password.value = it },
@@ -87,35 +101,52 @@ fun LoginScreen() {
                 passwordVisible = viewmodel.passwordVisible.value,
                 onPasswordVisibilityChanged = { viewmodel.passwordVisible.value = it }
             )
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            // Confirm Password field
+            AuthTextField(
+                value = viewmodel.confirmPassword.value,
+                onValueChange = { viewmodel.confirmPassword.value = it },
+                placeholder = "Confirm Password",
+                leadingIcon = Icons.Default.Lock,
+                isPassword = true,
+                passwordVisible = viewmodel.confirmPasswordVisible.value,
+                onPasswordVisibilityChanged = { viewmodel.confirmPasswordVisible.value = it }
+            )
+
             Spacer(modifier = Modifier.height(32.dp))
+
+            // Register button
             AuthButton(
-                text = "LOGIN",
-                enabled = viewmodel.isLoginButtonEnabled(),
-                onClick = {
-                }
+                text = "REGISTER",
+                enabled = viewmodel.isRegisterButtonEnabled(),
+                onClick = {}
             )
 
             Spacer(modifier = Modifier.weight(1f))
 
-            // Register option
+            // Login option
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier.padding(bottom = 24.dp)
             ) {
                 Text(
-                    "Don't have an account?",
+                    "Already have an account?",
                     color = PrimaryWhite,
                     fontSize = 14.sp
                 )
+
                 Spacer(modifier = Modifier.width(4.dp))
+
                 Text(
-                    "Register",
+                    "Login",
                     color = GlowingYellow,
                     fontSize = 14.sp,
                     fontWeight = FontWeight.Bold,
                     modifier = Modifier.clickable {
                         router.navigateTo(
-                            NavigationData.register
+                            NavigationData.login
                         )
                     }
                 )
