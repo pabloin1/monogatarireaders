@@ -9,6 +9,8 @@ import com.example.monogatarireaders.core.ui.theme.GlowingYellow
 import com.example.monogatarireaders.router.domain.models.NavBarItem
 
 object NavigationData {
+    val login = "login"
+    val register = "register"
     val not_found_screen = "NOT_FOUND_SCREEN"
     val manga_detail = "detail"
     val manga_chapter = "chapter"

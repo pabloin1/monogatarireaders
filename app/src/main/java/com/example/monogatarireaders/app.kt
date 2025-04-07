@@ -9,7 +9,7 @@ import com.example.monogatarireaders.router.ui.view.RouterView
 @Composable
 fun App() {
     MonogatarireadersTheme {
-        RouterProvider(NavigationData.discover.label){
+        RouterProvider(NavigationData.login){
             RouterView()
         }
     }

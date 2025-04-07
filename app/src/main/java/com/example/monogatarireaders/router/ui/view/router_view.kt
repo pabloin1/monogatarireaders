@@ -3,8 +3,8 @@ package com.example.monogatarireaders.router.ui.view
 import androidx.compose.animation.Crossfade
 import androidx.compose.runtime.Composable
 import com.example.monogatarireaders.discover_manga.ui.screens.DiscoverMangaScreen
+import com.example.monogatarireaders.login.ui.screen.LoginScreen
 import com.example.monogatarireaders.manga_chapter.ui.screens.MangaChapterScreen
-import com.example.monogatarireaders.manga_chapter.ui.viewmodel.MangaChapterViewmodel
 import com.example.monogatarireaders.manga_detail.ui.screens.MangaDetailScreen
 import com.example.monogatarireaders.not_found.ui.screens.NotFoundScreen
 import com.example.monogatarireaders.profile.ui.screens.ProfileScreen
@@ -22,6 +22,9 @@ fun RouterView(){
         label = "RouterView"
     ) { route ->
         when {
+            route == NavigationData.login -> {
+                LoginScreen()
+            }
             route == NavigationData.discover.label -> {
                 DiscoverMangaScreen()
             }

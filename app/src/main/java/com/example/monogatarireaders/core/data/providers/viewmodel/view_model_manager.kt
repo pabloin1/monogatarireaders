@@ -5,6 +5,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelStoreOwner
 import com.example.monogatarireaders.discover_manga.ui.viewmodels.DiscoverMangaViewModel
+import com.example.monogatarireaders.login.ui.viewmodel.LoginViewModel
 import com.example.monogatarireaders.manga_chapter.ui.viewmodel.MangaChapterViewmodel
 import com.example.monogatarireaders.manga_detail.ui.viewmodels.MangaDetailViewModel
 import com.example.monogatarireaders.profile.ui.viewmodels.ProfileViewModel
@@ -30,6 +31,10 @@ class ViewModelManager(private val context: Context) {
         viewModelCache[viewModelClass] = viewModel
 
         return viewModel
+    }
+
+    val loginViewmodel : LoginViewModel by lazy {
+        getViewModel(LoginViewModel::class.java)
     }
 
     val mangaChapterViewmodel : MangaChapterViewmodel by lazy {
