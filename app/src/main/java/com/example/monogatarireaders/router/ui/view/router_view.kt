@@ -14,9 +14,7 @@ import com.example.monogatarireaders.router.data.states.currentRoute
 import com.example.monogatarireaders.router.data.states.navigateTo
 
 @Composable
-fun RouterView(
-    mangaChapterViewmodel: MangaChapterViewmodel
-){
+fun RouterView(){
     val currentRoute = LocalRouter.current
 
     Crossfade(
@@ -35,9 +33,7 @@ fun RouterView(
                 MangaDetailScreen(mangaId = id.toInt())
             }
             route == NavigationData.manga_chapter -> {
-                MangaChapterScreen(
-                    mangaChapterViewmodel
-                )
+                MangaChapterScreen()
             }
             else -> {
                 NotFoundScreen(

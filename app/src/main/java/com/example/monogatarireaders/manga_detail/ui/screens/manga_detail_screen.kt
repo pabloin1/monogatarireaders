@@ -8,33 +8,30 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import com.example.monogatarireaders.core.data.states.viewmodels.LocalViewModelProvider
 import com.example.monogatarireaders.manga_detail.domain.models.MangaDetailState
 import com.example.monogatarireaders.manga_detail.ui.composables.MangaDetailContent
-import com.example.monogatarireaders.manga_detail.ui.viewmodels.MangaDetailViewModel
 import com.example.monogatarireaders.router.data.NavigationData
 import com.example.monogatarireaders.router.data.states.LocalRouter
 import com.example.monogatarireaders.router.data.states.navigateTo
 
 @Composable
 fun MangaDetailScreen(
-    viewModel: MangaDetailViewModel = remember {
-        MangaDetailViewModel()
-    },
     mangaId: Int,
 ) {
+    val viewModel = LocalViewModelProvider.current.mangaDetailViewModel
+
     LaunchedEffect(mangaId) {
         viewModel.loadMangaDetail(mangaId)
     }
 
-    val state by viewModel.state.collectAsState()
-    val sortOrder by viewModel.sortOrder.collectAsState()
+    val state by viewModel.state
+    val sortOrder by viewModel.sortOrder
     val router = LocalRouter.current
 
     Box(

@@ -1,20 +1,20 @@
 package com.example.monogatarireaders.manga_detail.ui.viewmodels
 
-import androidx.lifecycle.ViewModel
+import android.app.Application
+import androidx.compose.runtime.mutableStateOf
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.monogatarireaders.core.utils.extensions.toLocalDate
 import com.example.monogatarireaders.manga_detail.data.repositories.MangaDetailRepository
 import com.example.monogatarireaders.manga_detail.domain.models.ChapterSortOrder
 import com.example.monogatarireaders.manga_detail.domain.models.MangaDetailState
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
-class MangaDetailViewModel : ViewModel() {
-    private val _state = MutableStateFlow<MangaDetailState>(MangaDetailState.Loading)
-    val state: StateFlow<MangaDetailState> = _state
-    private val _sortOrder = MutableStateFlow(ChapterSortOrder.NEWEST)
-    val sortOrder: StateFlow<ChapterSortOrder> = _sortOrder
+class MangaDetailViewModel(app : Application): AndroidViewModel(app) {
+    private val _state = mutableStateOf<MangaDetailState>(MangaDetailState.Loading)
+    val state = _state
+    private val _sortOrder = mutableStateOf(ChapterSortOrder.NEWEST)
+    val sortOrder = _sortOrder
 
 
     private val _mangaDetailRepository = MangaDetailRepository()

@@ -9,22 +9,18 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.example.monogatarireaders.core.data.states.viewmodels.LocalViewModelProvider
 import com.example.monogatarireaders.core.ui.theme.PrimaryBlack
 import com.example.monogatarireaders.profile.ui.composables.collection_section.CollectionContainer
 import com.example.monogatarireaders.profile.ui.composables.header_section.ProfileHeader
 import com.example.monogatarireaders.profile.ui.composables.library_section.LibrarySection
-import com.example.monogatarireaders.profile.ui.viewmodels.ProfileViewModel
 import com.example.monogatarireaders.shared.ui.layouts.AppLayout
 
 @Composable
-fun ProfileScreen(
-    profileViewModel: ProfileViewModel = remember {
-        ProfileViewModel()
-    }
-) {
+fun ProfileScreen() {
+    val profileViewModel = LocalViewModelProvider.current.profileViewModel
    AppLayout {
        Column(
            modifier = Modifier

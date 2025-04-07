@@ -7,18 +7,16 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.example.monogatarireaders.core.data.states.viewmodels.LocalViewModelProvider
 import com.example.monogatarireaders.discover_manga.ui.composables.HeaderBannerDiscover
 import com.example.monogatarireaders.discover_manga.ui.composables.TrendingSection
-import com.example.monogatarireaders.discover_manga.ui.viewmodels.DiscoverMangaViewModel
 import com.example.monogatarireaders.shared.ui.layouts.AppLayout
 
 @Composable
-fun DiscoverMangaScreen(
-    viewModel: DiscoverMangaViewModel = remember { DiscoverMangaViewModel() }
-) {
+fun DiscoverMangaScreen() {
+    val viewModel = LocalViewModelProvider.current.discoverMangaViewModel
     AppLayout(
         children = {
             Column(

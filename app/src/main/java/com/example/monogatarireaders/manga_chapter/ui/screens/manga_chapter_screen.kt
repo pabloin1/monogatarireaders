@@ -20,21 +20,20 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.example.monogatarireaders.core.data.states.viewmodels.LocalViewModelProvider
 import com.example.monogatarireaders.core.ui.theme.BackgroundGrayItem
 import com.example.monogatarireaders.manga_chapter.ui.composables.chapter_stats.ChapterStats
 import com.example.monogatarireaders.manga_chapter.ui.composables.comments_section.CommentsSection
 import com.example.monogatarireaders.manga_chapter.ui.composables.image_section.ImageSection
 import com.example.monogatarireaders.manga_chapter.ui.composables.navigation_buttons.NavigationButton
 import com.example.monogatarireaders.manga_chapter.ui.composables.top_bar_button.TopBarButton
-import com.example.monogatarireaders.manga_chapter.ui.viewmodel.MangaChapterViewmodel
 import com.example.monogatarireaders.router.data.NavigationData
 import com.example.monogatarireaders.router.data.states.LocalRouter
 import com.example.monogatarireaders.router.data.states.navigateTo
 
 @Composable
-fun MangaChapterScreen(
-    viewModel : MangaChapterViewmodel
-) {
+fun MangaChapterScreen() {
+    val viewModel = LocalViewModelProvider.current.mangaChapterViewmodel
     val imageList = viewModel.images.value
     val currentImageIndex = viewModel.currentImageIndex.intValue
     var userComment = viewModel.userComment.value
