@@ -18,6 +18,9 @@ import androidx.compose.ui.unit.dp
 import com.example.monogatarireaders.manga_detail.domain.models.MangaDetailState
 import com.example.monogatarireaders.manga_detail.ui.composables.MangaDetailContent
 import com.example.monogatarireaders.manga_detail.ui.viewmodels.MangaDetailViewModel
+import com.example.monogatarireaders.router.data.NavigationData
+import com.example.monogatarireaders.router.data.states.LocalRouter
+import com.example.monogatarireaders.router.data.states.navigateTo
 
 @Composable
 fun MangaDetailScreen(
@@ -32,6 +35,7 @@ fun MangaDetailScreen(
 
     val state by viewModel.state.collectAsState()
     val sortOrder by viewModel.sortOrder.collectAsState()
+    val router = LocalRouter.current
 
     Box(
         modifier = Modifier
@@ -59,11 +63,11 @@ fun MangaDetailScreen(
                 val mangaDetail = (state as MangaDetailState.Success).manga
                 MangaDetailContent(
                     mangaDetail = mangaDetail,
-                    onStartReading = {},
+                    onStartReading = {  },
                     onAddToLibrary = { viewModel.addToLibrary() },
                     onFavoriteClick = { viewModel.toggleFavorite() },
                     onShareClick = { viewModel.shareManga() },
-                    onChapterSelected = {},
+                    onChapterSelected = {router.navigateTo(NavigationData.manga_chapter)},
                     sorteBy = sortOrder,
                     onSortOrder = { viewModel.updateSortOrder(it) }
                 )
