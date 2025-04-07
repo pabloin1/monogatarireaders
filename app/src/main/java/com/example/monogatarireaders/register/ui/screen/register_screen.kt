@@ -14,6 +14,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -26,12 +27,15 @@ import com.example.monogatarireaders.core.data.states.viewmodels.LocalViewModelP
 import com.example.monogatarireaders.core.ui.theme.BackgroundBlue
 import com.example.monogatarireaders.core.ui.theme.BackgroundGrayItem
 import com.example.monogatarireaders.core.ui.theme.GlowingYellow
+import com.example.monogatarireaders.core.ui.theme.PrimaryBlack
 import com.example.monogatarireaders.core.ui.theme.PrimaryWhite
+import com.example.monogatarireaders.register.domain.models.RegisterState
 import com.example.monogatarireaders.router.data.NavigationData
 import com.example.monogatarireaders.router.data.states.LocalRouter
 import com.example.monogatarireaders.router.data.states.navigateTo
 import com.example.monogatarireaders.shared.ui.composables.AuthButton
 import com.example.monogatarireaders.shared.ui.composables.AuthTextField
+import com.example.monogatarireaders.shared.ui.composables.CustomSnackBar
 import com.example.monogatarireaders.shared.ui.composables.MonogatariTitle
 
 @Composable
@@ -121,7 +125,7 @@ fun RegisterScreen() {
             AuthButton(
                 text = "REGISTER",
                 enabled = viewmodel.isRegisterButtonEnabled(),
-                onClick = {}
+                onClick = { viewmodel.registerUser() }
             )
 
             Spacer(modifier = Modifier.weight(1f))
@@ -150,6 +154,33 @@ fun RegisterScreen() {
                         )
                     }
                 )
+            }
+
+            when (viewmodel.state.value) {
+                is RegisterState.Success -> {
+                    CustomSnackBar(
+                        text = "Registration successful",
+                        action = {
+                            Text(
+                                text = "Login",
+                                color = PrimaryBlack,
+                                modifier = Modifier.clickable {
+                                    router.navigateTo(NavigationData.login)
+                                }
+                            )
+                        }
+                    )
+                }
+                is RegisterState.Error -> {
+                    val errorMessage = (viewmodel.state.value as RegisterState.Error).message
+                    CustomSnackBar(text = errorMessage)
+                }
+                is RegisterState.Loading -> {
+                    CircularProgressIndicator()
+                }
+                else -> {
+
+                }
             }
         }
     }
