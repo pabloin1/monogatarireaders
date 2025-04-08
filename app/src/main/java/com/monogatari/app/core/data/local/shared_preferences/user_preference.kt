@@ -42,6 +42,18 @@ class UserPreference(context : Context){
         sharedPreferences.edit().remove(APP_PREFS.FB_TOKEN_PREFERENCE).apply()
     }
 
+    fun saveUserName(userName: String) {
+        sharedPreferences.edit().putString(APP_PREFS.USER_NAME_PREFERENCE, userName).apply()
+    }
+
+    fun getUserName(): String? {
+        return sharedPreferences.getString(APP_PREFS.USER_NAME_PREFERENCE, null)
+    }
+
+    fun clearUserName() {
+        sharedPreferences.edit().remove(APP_PREFS.USER_NAME_PREFERENCE).apply()
+    }
+
     fun clearAll() {
         sharedPreferences.edit().clear().apply()
     }
