@@ -31,7 +31,11 @@ import com.monogatari.app.R
 import com.monogatari.app.core.ui.theme.PrimaryBlack
 
 @Composable
-fun ProfileHeader() {
+fun ProfileHeader(
+    username : String,
+    chaptersRead : Int = 0,
+    favorites : Int = 0,
+) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -71,7 +75,7 @@ fun ProfileHeader() {
             Spacer(modifier = Modifier.height(8.dp))
 
             Text(
-                text = "Alejandro Villalobos",
+                text = username,
                 color = Color.White,
                 fontSize = 18.sp,
                 fontWeight = FontWeight.Bold,
@@ -101,14 +105,14 @@ fun ProfileHeader() {
                     .width(2.dp)
                     .background(Color.DarkGray)
             )
-            StatItem("367", "Chapters Read")
+            StatItem(chaptersRead.toString(), "Chapters Read")
             HorizontalDivider(
                 modifier = Modifier
                     .height(40.dp)
                     .width(2.dp)
                     .background(Color.DarkGray)
             )
-            StatItem("42", "Favorites")
+            StatItem(favorites.toString(), "Favorites")
         }
     }
 }

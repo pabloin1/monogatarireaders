@@ -1,6 +1,5 @@
 package com.monogatari.app.profile.ui.composables.library_section
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -23,25 +22,27 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.AsyncImage
 import com.monogatari.app.core.ui.theme.BackgroundGrayItem
 import com.monogatari.app.core.ui.theme.BorderGray
 import com.monogatari.app.core.ui.theme.GlowingYellow
-import com.monogatari.app.profile.domain.adapters.LibraryItemAdapter
 import com.monogatari.app.router.data.NavigationData
 import com.monogatari.app.router.data.states.LocalRouter
 import com.monogatari.app.router.data.states.navigateTo
+import com.monogatari.app.shared.domain.adapters.MangaFavoriteAdapter
 
 @Composable
 fun LibraryItem(
-    libraryItem: LibraryItemAdapter
+    libraryItem: MangaFavoriteAdapter
 ) {
     val route = LocalRouter.current
-    val progress = libraryItem.chaptersRead.toFloat() / libraryItem.totalChapters
+    val lastRead = libraryItem.lastReadChapter?.toFloat() ?: 0f
+    val totalChapters = libraryItem.manga.chapterCount.toFloat() ?: 1f
+    val progress = lastRead / totalChapters
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -59,8 +60,8 @@ fun LibraryItem(
             .clickable { route.navigateTo(NavigationData.detailRoute(libraryItem.id.toString())) },
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Image(
-            painter = painterResource(id = libraryItem.coverResourceId),
+        AsyncImage(
+            model = libraryItem.manga.coverImageUrl,
             contentDescription = "Manga Cover",
             modifier = Modifier
                 .width(60.dp)
@@ -74,14 +75,14 @@ fun LibraryItem(
             modifier = Modifier.weight(1f)
         ) {
             Text(
-                text = libraryItem.title,
+                text = libraryItem.manga.title,
                 color = Color.White,
                 fontSize = 16.sp,
                 fontWeight = FontWeight.Bold
             )
 
             Text(
-                text = "Last read: Ch. ${libraryItem.lastReadChapter} - ${libraryItem.lastReadDaysAgo} days ago",
+                text = "Last read: Ch. ${libraryItem.lastReadChapter}",
                 color = Color.Gray,
                 fontSize = 12.sp
             )
@@ -125,7 +126,7 @@ fun LibraryItem(
             Spacer(modifier = Modifier.height(20.dp))
 
             Text(
-                text =  "${libraryItem.chaptersRead}/${libraryItem.totalChapters}",
+                text =  "${lastRead}/${totalChapters}",
                 color = Color.Gray,
                 fontSize = 13.sp,
                 fontWeight = FontWeight.Bold,

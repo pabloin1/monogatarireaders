@@ -12,11 +12,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.monogatari.app.profile.domain.adapters.LibraryItemAdapter
+import com.monogatari.app.shared.domain.adapters.MangaFavoriteAdapter
 
 @Composable
 fun LibrarySection(
-    library : List<LibraryItemAdapter>
+    library : List<MangaFavoriteAdapter>
 ) {
     Column(
         modifier = Modifier
