@@ -1,6 +1,5 @@
 package com.monogatari.app.discover_manga.ui.composables
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -22,18 +21,18 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.AsyncImage
 import com.monogatari.app.core.ui.theme.GlowingYellow
 import com.monogatari.app.core.ui.theme.PrimaryBlack
 import com.monogatari.app.core.ui.theme.PrimaryWhite
-import com.monogatari.app.discover_manga.domain.adapters.MangaAdapter
 import com.monogatari.app.router.data.NavigationData
 import com.monogatari.app.router.data.states.LocalRouter
 import com.monogatari.app.router.data.states.navigateTo
+import com.monogatari.app.shared.domain.adapters.MangaAdapter
 
 @Composable
 fun TrendingMangaCard(
@@ -54,8 +53,8 @@ fun TrendingMangaCard(
                 .fillMaxWidth()
         ) {
 
-            Image(
-                painter = painterResource(id = manga.coverImageResId),
+            AsyncImage(
+                model = manga.coverImageUrl,
                 contentDescription = manga.title,
                 modifier = Modifier
                     .fillMaxSize()
@@ -81,7 +80,7 @@ fun TrendingMangaCard(
                         tint = PrimaryBlack
                     )
                     Text(
-                        text = manga.rating.toString(),
+                        text = manga.averageRating.toString(),
                         color = PrimaryBlack,
                         fontSize = 10.sp,
                         fontWeight = FontWeight.Bold
@@ -101,7 +100,7 @@ fun TrendingMangaCard(
         )
 
         Text(
-            text = manga.author,
+            text = manga.creator.username,
             color = PrimaryWhite.copy(alpha = 0.7f),
             fontSize = 12.sp,
             maxLines = 1,

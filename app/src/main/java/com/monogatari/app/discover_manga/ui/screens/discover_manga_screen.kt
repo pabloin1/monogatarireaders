@@ -29,9 +29,7 @@ fun DiscoverMangaScreen() {
                     onContactUsClick = { viewModel.onContactUsClicked() }
                 )
                 Spacer(modifier = Modifier.height(16.dp))
-                TrendingSection(
-                    trendingManga = viewModel.trendingManga,
-                )
+                TrendingSection( viewModel )
             }
     })
 }
