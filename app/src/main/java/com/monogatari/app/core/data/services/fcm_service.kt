@@ -14,8 +14,8 @@ class FcmService : FirebaseMessagingService() {
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onMessageReceived(message: RemoteMessage) {
         super.onMessageReceived(message)
-        Log.d("FCM_TAG", "onMessageReceived: ${message.data}")
-        showNotification(message)
+        Log.d("FCM_TAG", "onMessageReceived: ${message.notification?.title} ${message.notification?.body}")
+        showNotification(message.notification)
     }
 
     override fun onNewToken(token: String) {
@@ -26,10 +26,10 @@ class FcmService : FirebaseMessagingService() {
     }
 
     @RequiresApi(Build.VERSION_CODES.M)
-    private fun showNotification(message: RemoteMessage) {
+    private fun showNotification(message: RemoteMessage.Notification?) {
         val notificationManager = getSystemService(NotificationManager::class.java)
-        val title = message.data["title"] ?: ""
-        val body = message.data["body"] ?: ""
+        val title = message?.title ?: "Monogatari"
+        val body = message?.body ?: "You have a new message"
         val notification = NotificationCompat.Builder(this, MyApp.NOTIFICATION_CHANNEL_ID)
             .setContentTitle(title)
             .setContentText(body)
