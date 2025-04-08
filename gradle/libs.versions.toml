@@ -11,6 +11,7 @@ composeBom = "2024.04.01"
 retrofit = "2.11.0"
 okhttp = "4.11.0"
 gsonConverter = "2.11.0"
+firebaseBom = "32.7.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -31,6 +32,9 @@ androidx-ui-icons = { group = "androidx.compose.material", name= "material-icons
 retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
 okhttp = { group = "com.squareup.okhttp3", name = "okhttp", version.ref = "okhttp" }
 gson-converter = { group = "com.squareup.retrofit2", name = "converter-gson", version.ref = "gsonConverter" }
+firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version.ref = "firebaseBom" }
+firebase-analytics = { group = "com.google.firebase", name = "firebase-analytics" }
+firebase-messaging = { group = "com.google.firebase", name = "firebase-messaging" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

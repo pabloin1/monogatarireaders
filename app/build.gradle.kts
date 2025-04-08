@@ -1,14 +1,15 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
+    id("com.google.gms.google-services")
 }
 
 android {
-    namespace = "com.example.monogatarireaders"
+    namespace = "com.monogatari.app"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.example.monogatarireaders"
+        applicationId = "com.monogatari.app"
         minSdk = 21
         targetSdk = 35
         versionCode = 1
@@ -63,6 +64,9 @@ dependencies {
     implementation(libs.retrofit)
     implementation(libs.okhttp)
     implementation(libs.gson.converter)
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.analytics)
+    implementation(libs.firebase.messaging)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
