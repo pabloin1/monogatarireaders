@@ -5,6 +5,10 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
+import com.monogatari.app.manga_chapter.data.services.CreateCommentChapterService
+import com.monogatari.app.manga_chapter.data.services.GetChapterCommentsService
+import com.monogatari.app.manga_chapter.domain.dtos.CreateCommentDTO
+import com.monogatari.app.manga_chapter.domain.models.CommentChapterStatus
 import com.monogatari.app.manga_chapter.domain.models.MangaChapterStatus
 import com.monogatari.app.manga_chapter.domain.use_cases.GetMangaChapterInfoUseCase
 import kotlinx.coroutines.launch
@@ -13,11 +17,15 @@ class MangaChapterViewmodel(app : Application) : AndroidViewModel(app) {
     private val _currentImageIndex = mutableIntStateOf(0)
     private val _userComment = mutableStateOf("")
     val state = mutableStateOf<MangaChapterStatus>(MangaChapterStatus.Idle)
+    val commentStatus = mutableStateOf<CommentChapterStatus>(CommentChapterStatus.Idle)
+    val isCommentSubmit = mutableStateOf(false)
 
     val currentImageIndex = _currentImageIndex
     val userComment = _userComment
 
     private val _getMangaChapterInfoUseCase = GetMangaChapterInfoUseCase()
+    private val _getChapterCommentsService = GetChapterCommentsService()
+    private val _createCommentChapterService = CreateCommentChapterService()
 
     fun getMangaChapterInfo(chapterId : Int){
         viewModelScope.launch {
@@ -34,6 +42,25 @@ class MangaChapterViewmodel(app : Application) : AndroidViewModel(app) {
                 )
             }catch (e: Exception){
                 state.value = MangaChapterStatus.Error("Error loading manga chapters: ${e.message}")
+            }
+        }
+    }
+
+    fun getChapterComments(chapterId : Int){
+        viewModelScope.launch {
+            try{
+                commentStatus.value = CommentChapterStatus.Loading
+                val chapterComments = _getChapterCommentsService.getChapterComments(chapterId)
+                chapterComments.fold(
+                    onSuccess = {
+                        commentStatus.value = CommentChapterStatus.Success(it)
+                    },
+                    onFailure = { error ->
+                        commentStatus.value = CommentChapterStatus.Error("Error loading comments : ${error.message}")
+                    }
+                )
+            }catch (e: Exception){
+                commentStatus.value = CommentChapterStatus.Error("Error loading comments : ${e.message}")
             }
         }
     }
@@ -58,6 +85,28 @@ class MangaChapterViewmodel(app : Application) : AndroidViewModel(app) {
     }
 
     fun onSubmitComment() {
-
+        viewModelScope.launch {
+            try {
+                val chapterId = (state.value as MangaChapterStatus.Success).chapters.id
+                val createCommentDTO = CreateCommentDTO(
+                    chapterId = chapterId,
+                    content = _userComment.value
+                )
+                val result = _createCommentChapterService.createComment(createCommentDTO)
+                result.fold(
+                    onSuccess = {
+                        isCommentSubmit.value = true
+                        onUserCommentChange("")
+                    },
+                    onFailure = { error ->
+                        isCommentSubmit.value = false
+                        commentStatus.value = CommentChapterStatus.Error("Error submitting comment: ${error.message}")
+                    }
+                )
+            } catch (e: Exception) {
+                isCommentSubmit.value = false
+                commentStatus.value = CommentChapterStatus.Error("Error submitting comment: ${e.message}")
+            }
+        }
     }
 }

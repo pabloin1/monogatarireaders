@@ -4,5 +4,5 @@ data class UserAdapter(
     val id: Long,
     val username: String,
     val displayName: String,
-    val profileImageUrl: String
+    val profileImageUrl: String?
 )

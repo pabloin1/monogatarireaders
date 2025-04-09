@@ -46,7 +46,6 @@ fun MangaChapterScreen(
 ) {
     val viewModel = LocalViewModelProvider.current.mangaChapterViewmodel
     val currentImageIndex = viewModel.currentImageIndex.intValue
-    val userComment = viewModel.userComment.value
     val state = viewModel.state.value
 
     val route = LocalRouter.current
@@ -102,11 +101,7 @@ fun MangaChapterScreen(
                                 .fillMaxWidth()
                                 .padding(top = 20.dp)
                         ) {
-                            CommentsSection(
-                                commentValue = userComment,
-                                onCommentValueChange = { viewModel.onUserCommentChange(it) },
-                                onSubmitComment = { viewModel.onSubmitComment() },
-                            )
+                            CommentsSection( chapterId = chapterId.toInt() )
                             // Main image with zoom functionality
                             ImageSection(
                                 image = imageList[currentImageIndex],

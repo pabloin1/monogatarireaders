@@ -1,11 +1,12 @@
 package com.monogatari.app.manga_chapter.domain.adapters
 
+import com.monogatari.app.shared.domain.adapters.UserAdapter
+
 data class CommentAdapter(
-    val id: Int,
-    val userName: String,
-    val userAvatar: Int,
+    val id: Long,
+    val user: UserAdapter,
+    val chapterId: Long,
     val content: String,
-    val timeAgo: String,
-    val likes: Int,
-    val isLiked: Boolean
+    val createdAt: String,
+    val edited: Boolean
 )

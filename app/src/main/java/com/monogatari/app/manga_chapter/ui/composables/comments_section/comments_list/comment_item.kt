@@ -1,6 +1,5 @@
 package com.monogatari.app.manga_chapter.ui.composables.comments_section.comments_list
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -24,19 +23,23 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.AsyncImage
+import com.monogatari.app.R
 import com.monogatari.app.core.ui.theme.BackgroundGrayItem
 import com.monogatari.app.core.ui.theme.BorderGray
 import com.monogatari.app.core.ui.theme.PrimaryWhite
+import com.monogatari.app.core.utils.extensions.toFormattedDate
 
 @Composable
 fun CommentItem(
     modifier: Modifier = Modifier,
-    user_img : Int,
-    user_name : String,
-    user_comment : String,
-    time_ago : String,
+    userImg : String?,
+    userName : String,
+    comment : String,
+    createdAt : String,
 ) {
     Row(
         modifier = Modifier
@@ -44,15 +47,16 @@ fun CommentItem(
             .padding(top = 15.dp),
         horizontalArrangement = Arrangement.SpaceBetween,
     ){
-        Image(
-            painter = painterResource(id = user_img),
+        AsyncImage(
+            model = userImg,
             contentDescription = "Profile Avatar",
             modifier = Modifier
                 .size(55.dp)
                 .clip(CircleShape)
                 .border(2.dp, BorderGray, CircleShape)
                 .background(Color.Black),
-            contentScale = ContentScale.Crop
+            contentScale = ContentScale.Crop,
+            error = painterResource(id = R.drawable.satoru_gojo)
         )
         Column(
             modifier = Modifier
@@ -65,17 +69,19 @@ fun CommentItem(
                 .border(2.dp, BorderGray, RoundedCornerShape(10.dp))
                 .padding(10.dp),
         ){
-            Row {
+            Row(modifier = Modifier.fillMaxWidth()) {
                 Text(
                     modifier = Modifier.weight(1f),
-                    text = user_name,
+                    text = userName,
                     color = PrimaryWhite,
                     fontSize = 14.sp,
                     fontWeight = FontWeight.Bold,
+                    overflow = TextOverflow.Ellipsis,
+                    maxLines = 1
                 )
                 Text(
-                    modifier = Modifier.weight(1f),
-                    text = "$time_ago ago",
+                    modifier = Modifier.weight(1f).padding(start = 5.dp),
+                    text = createdAt.toFormattedDate(),
                     color = Color.Gray,
                     fontSize = 12.sp,
                 )
@@ -102,7 +108,7 @@ fun CommentItem(
                 }
             }
             Text(
-                text = user_comment,
+                text = comment,
                 color = Color.White,
                 fontSize = 14.sp,
                 modifier = Modifier.padding(top = 5.dp)
