@@ -1,6 +1,5 @@
 package com.monogatari.app.manga_detail.ui.composables.top_manga_detail.banner_manga
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -10,14 +9,13 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
-import com.monogatari.app.manga_detail.domain.adapters.MangaDetailAdapter
+import coil.compose.AsyncImage
 
 @Composable
-fun BannerManga(mangaDetail : MangaDetailAdapter) {
+fun BannerManga(coverImgUrl: String) {
     // Background image (blurred)
-    Image(
-        painter = painterResource(id = mangaDetail.coverImageResId),
+    AsyncImage(
+        model = coverImgUrl,
         contentDescription = null,
         contentScale = ContentScale.Crop,
         modifier = Modifier

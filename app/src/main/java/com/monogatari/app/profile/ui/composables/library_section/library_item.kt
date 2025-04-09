@@ -41,8 +41,8 @@ fun LibraryItem(
 ) {
     val route = LocalRouter.current
     val lastRead = libraryItem.lastReadChapter?.toFloat() ?: 0f
-    val totalChapters = libraryItem.manga.chapterCount.toFloat() ?: 1f
-    val progress = lastRead / totalChapters
+    val totalChapters = libraryItem.manga.chapterCount?.toFloat() ?: 1f
+    val progress = if (totalChapters > 0) lastRead / totalChapters else 0f
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -57,7 +57,7 @@ fun LibraryItem(
             )
             .background(BackgroundGrayItem)
             .padding(15.dp)
-            .clickable { route.navigateTo(NavigationData.detailRoute(libraryItem.id.toString())) },
+            .clickable { route.navigateTo(NavigationData.detailRoute(libraryItem.manga.id.toString())) },
         verticalAlignment = Alignment.CenterVertically
     ) {
         AsyncImage(
@@ -89,7 +89,7 @@ fun LibraryItem(
 
             LinearProgressIndicator(
                 progress = {
-                    progress
+                    if (progress.isNaN() || progress.isInfinite()) 0f else progress
                 },
                 modifier = Modifier
                     .width(200.dp)

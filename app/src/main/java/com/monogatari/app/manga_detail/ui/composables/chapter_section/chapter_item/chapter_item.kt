@@ -1,6 +1,5 @@
 package com.monogatari.app.manga_detail.ui.composables.chapter_section.chapter_item
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -25,19 +24,20 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.AsyncImage
 import com.monogatari.app.core.ui.theme.BackgroundGrayItem
 import com.monogatari.app.core.ui.theme.BorderGray
 import com.monogatari.app.core.ui.theme.PrimaryWhite
+import com.monogatari.app.core.utils.extensions.toFormattedDate
 import com.monogatari.app.manga_detail.domain.adapters.ChapterAdapter
 import com.monogatari.app.shared.ui.composables.GlowingButton
 
 @Composable
 fun ChapterItem(
-    coverImageResId : Int,
+    coverImage : String,
     chapter: ChapterAdapter,
     onChapterClick: () -> Unit
 ) {
@@ -59,14 +59,17 @@ fun ChapterItem(
         horizontalArrangement = Arrangement.SpaceBetween
     ){
         Row(
+            modifier = Modifier
+                .weight(1f)
+                .padding(vertical = 8.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Card(
                 shape = RoundedCornerShape(4.dp),
                 modifier = Modifier.size(50.dp)
             ) {
-                Image(
-                    painter = painterResource(id = coverImageResId),
+                AsyncImage(
+                    model = coverImage,
                     contentDescription = chapter.title,
                     contentScale = ContentScale.Crop
                 )
@@ -76,14 +79,14 @@ fun ChapterItem(
 
             Column {
                 Text(
-                    text = chapter.title,
+                    text = "Chapter ${chapter.title}",
                     color = PrimaryWhite,
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Medium
                 )
 
                 Text(
-                    text = chapter.date,
+                    text = chapter.publishDate.toFormattedDate(),
                     color = Color.Gray,
                     fontSize = 12.sp
                 )
@@ -105,7 +108,7 @@ fun ChapterItem(
                 )
                 Spacer(modifier = Modifier.width(4.dp))
                 Text(
-                    text = "${chapter.views / 1000}.${(chapter.views % 1000) / 100}k",
+                    text = "${chapter.viewCount / 1000}.${(chapter.viewCount % 1000) / 100}k",
                     color = Color.Red,
                     fontSize = 14.sp
                 )

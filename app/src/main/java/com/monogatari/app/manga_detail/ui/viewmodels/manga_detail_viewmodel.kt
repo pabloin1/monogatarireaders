@@ -4,10 +4,13 @@ import android.app.Application
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
-import com.monogatari.app.core.utils.extensions.toLocalDate
-import com.monogatari.app.manga_detail.data.repositories.MangaDetailRepository
+import com.monogatari.app.core.utils.extensions.toFormattedDate
+import com.monogatari.app.manga_detail.data.services.AddMangaFavoriteService
+import com.monogatari.app.manga_detail.data.services.DeleteMangaFavoriteService
+import com.monogatari.app.manga_detail.domain.dtos.AddMangaFavoriteDto
 import com.monogatari.app.manga_detail.domain.models.ChapterSortOrder
 import com.monogatari.app.manga_detail.domain.models.MangaDetailState
+import com.monogatari.app.manga_detail.domain.use_cases.GetMangaDetailUseCase
 import kotlinx.coroutines.launch
 
 class MangaDetailViewModel(app : Application): AndroidViewModel(app) {
@@ -16,16 +19,22 @@ class MangaDetailViewModel(app : Application): AndroidViewModel(app) {
     private val _sortOrder = mutableStateOf(ChapterSortOrder.NEWEST)
     val sortOrder = _sortOrder
 
-
-    private val _mangaDetailRepository = MangaDetailRepository()
+    private val _getMangaDetailUseCase = GetMangaDetailUseCase()
+    private val _addMangaFavoriteService = AddMangaFavoriteService()
+    private val _deleteMangaFavoriteService = DeleteMangaFavoriteService()
 
     fun loadMangaDetail(mangaId: Int) {
         viewModelScope.launch {
             _state.value = MangaDetailState.Loading
             try {
-                val detail = _mangaDetailRepository.getMangaDetailsById(mangaId)
-                _state.value = MangaDetailState.Success(
-                    detail
+                _getMangaDetailUseCase.execute(mangaId).fold(
+                    onSuccess = { manga ->
+                        _state.value = MangaDetailState.Success(manga)
+                        sortChapters()
+                    },
+                    onFailure = { error ->
+                        _state.value = MangaDetailState.Error("Error loading manga details: ${error.message}")
+                    }
                 )
             } catch (e: Exception) {
                 _state.value = MangaDetailState.Error("Error loading manga details: ${e.message}")
@@ -42,8 +51,8 @@ class MangaDetailViewModel(app : Application): AndroidViewModel(app) {
         val currentState = _state.value
         if (currentState is MangaDetailState.Success) {
             val sortedChapters = when (_sortOrder.value) {
-                ChapterSortOrder.NEWEST -> currentState.manga.chapters.sortedByDescending { it.date.toLocalDate() }
-                ChapterSortOrder.OLDEST -> currentState.manga.chapters.sortedBy { it.date.toLocalDate() }
+                ChapterSortOrder.NEWEST -> currentState.manga.chapters.sortedByDescending { it.publishDate.toFormattedDate() }
+                ChapterSortOrder.OLDEST -> currentState.manga.chapters.sortedBy { it.publishDate.toFormattedDate() }
             }
 
             _state.value = currentState.copy(
@@ -54,16 +63,56 @@ class MangaDetailViewModel(app : Application): AndroidViewModel(app) {
         }
     }
 
-    fun addToLibrary() {
-
-    }
-
-    fun startReading() {
-
-    }
-
     fun toggleFavorite() {
+        val currentState = _state.value
+        if (currentState is MangaDetailState.Success) {
+            val manga = currentState.manga
+            val favoriteDto = AddMangaFavoriteDto(manga.details.id.toInt())
+            viewModelScope.launch {
+                try {
+                    _addMangaFavoriteService.addFavorite(favoriteDto)
+                        .fold(
+                            onSuccess = {
+                                _state.value = MangaDetailState.Success(manga.copy(
+                                    chapters = manga.chapters,
+                                    details = manga.details.copy(inUserFavorites = !manga.details.inUserFavorites)
+                                ))
+                            },
+                            onFailure = { error ->
+                                _state.value = MangaDetailState.Error("Error toggling favorite: ${error.message}")
+                            }
+                        )
+                } catch (e: Exception) {
+                    _state.value = MangaDetailState.Error("Error toggling favorite: ${e.message}")
+                }
+            }
+        }
+    }
 
+    fun deleteFavorite() {
+        val currentState = _state.value
+        if (currentState is MangaDetailState.Success) {
+            val manga = currentState.manga
+            viewModelScope.launch {
+                try {
+                    _deleteMangaFavoriteService.deleteFavorite(manga.details.id.toInt())
+                        .fold(
+                            onSuccess = {
+                                _state.value = MangaDetailState.Success(manga.copy(
+                                    chapters = manga.chapters,
+                                    details = manga.details.copy(inUserFavorites = !manga.details.inUserFavorites
+                                    )
+                            ))
+                                        },
+                            onFailure = { error ->
+                                _state.value = MangaDetailState.Error("Error deleting favorite: ${error.message}")
+                            }
+                    )
+                } catch (e: Exception) {
+                    _state.value = MangaDetailState.Error("Error deleting favorite: ${e.message}")
+                }
+            }
+        }
     }
 
     fun shareManga() {

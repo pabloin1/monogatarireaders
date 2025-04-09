@@ -21,11 +21,7 @@ class ProfileViewModel(app : Application): AndroidViewModel(app) {
 
     val userCollections : List<CollectibleItemModel> = _collectionRepository.getCollections()
 
-    init {
-        getInfo()
-    }
-
-    private fun getInfo() {
+    fun getInfo() {
         viewModelScope.launch {
             try {
                 state.value = LibraryState.Loading

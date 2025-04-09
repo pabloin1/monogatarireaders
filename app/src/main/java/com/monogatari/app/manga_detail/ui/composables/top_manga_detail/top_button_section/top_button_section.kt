@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.Icon
@@ -27,6 +28,7 @@ fun TopButtonSection(
     secondPosition : Modifier = Modifier,
     onFavoriteClick: () -> Unit,
     onShareClick: () -> Unit,
+    isFavorite : Boolean = false,
 ) {
     val router = LocalRouter.current
     IconButton(
@@ -55,9 +57,9 @@ fun TopButtonSection(
                 .background(Color.Black.copy(alpha = 0.5f), shape = CircleShape)
         ) {
             Icon(
-                imageVector = Icons.Default.FavoriteBorder,
+                imageVector = if (isFavorite) Icons.Filled.Favorite else Icons.Default.FavoriteBorder,
                 contentDescription = "Favorite",
-                tint = Color.White
+                tint = if (isFavorite) Color.Red else Color.White
             )
         }
 

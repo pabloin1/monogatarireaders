@@ -1,6 +1,5 @@
 package com.monogatari.app.manga_detail.ui.composables.top_manga_detail.top_manga_info
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -20,11 +19,11 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shadow
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.AsyncImage
 import com.monogatari.app.core.ui.theme.BackgroundBlue
 import com.monogatari.app.core.ui.theme.SecundaryGlowingYellow
 import com.monogatari.app.manga_detail.domain.adapters.MangaDetailAdapter
@@ -41,8 +40,8 @@ fun TopMangaInfo(mangaDetail : MangaDetailAdapter, modifier: Modifier = Modifier
             shape = RoundedCornerShape(8.dp),
             modifier = Modifier.size(100.dp, 150.dp)
         ) {
-            Image(
-                painter = painterResource(id = mangaDetail.coverImageResId),
+            AsyncImage(
+                model = mangaDetail.coverImageUrl,
                 contentDescription = mangaDetail.title,
                 contentScale = ContentScale.Crop,
                 modifier = Modifier.border(
@@ -77,12 +76,12 @@ fun TopMangaInfo(mangaDetail : MangaDetailAdapter, modifier: Modifier = Modifier
                         )
                     )
                 )
-                RatingSquares(rating = mangaDetail.rating)
+                RatingSquares(rating = mangaDetail.averageRating)
             }
 
 
             Text(
-                text = "By ${mangaDetail.author}",
+                text = "By ${mangaDetail.creator.displayName}",
                 color = Color.Gray,
                 fontSize = 14.sp
             )

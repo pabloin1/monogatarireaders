@@ -8,6 +8,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.monogatari.app.manga_detail.domain.adapters.MangaDetailAdapter
+import com.monogatari.app.manga_detail.domain.adapters.MangaDetailChapterAdapter
 import com.monogatari.app.manga_detail.ui.composables.top_manga_detail.banner_manga.BannerManga
 import com.monogatari.app.manga_detail.ui.composables.top_manga_detail.top_button_section.TopButtonSection
 import com.monogatari.app.manga_detail.ui.composables.top_manga_detail.top_manga_info.TopMangaInfo
@@ -23,13 +24,14 @@ fun TopContentMangaDetail(
             .fillMaxWidth()
             .height(300.dp)
     ) {
-        BannerManga(mangaDetail = mangaDetail)
+        BannerManga(coverImgUrl = mangaDetail.coverImageUrl)
         TopMangaInfo(mangaDetail = mangaDetail, modifier = Modifier.align(Alignment.BottomStart))
         TopButtonSection(
             firstPosition = Modifier.align(Alignment.TopStart),
             secondPosition = Modifier.align(Alignment.TopEnd),
             onFavoriteClick = onFavoriteClick,
             onShareClick = onShareClick,
+            isFavorite = mangaDetail.inUserFavorites
         )
     }
 

@@ -32,7 +32,10 @@ import com.monogatari.app.router.data.states.LocalRouter
 import com.monogatari.app.router.data.states.navigateTo
 
 @Composable
-fun MangaChapterScreen() {
+fun MangaChapterScreen(
+    mangaId: String,
+    chapterId: String,
+) {
     val viewModel = LocalViewModelProvider.current.mangaChapterViewmodel
     val imageList = viewModel.images.value
     val currentImageIndex = viewModel.currentImageIndex.intValue
@@ -51,7 +54,7 @@ fun MangaChapterScreen() {
         ) {
             // Top bar with back button and title
             TopBarButton(title = "Jujutsu Kaisen", subtitle = "Episode 215", onBackClick = {
-                route.navigateTo(NavigationData.detailRoute("1"))
+                route.navigateTo(NavigationData.detailRoute(mangaId))
             })
 
             Column(

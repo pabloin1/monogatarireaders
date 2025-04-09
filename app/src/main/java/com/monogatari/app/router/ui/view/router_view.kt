@@ -54,8 +54,12 @@ fun RouterView(){
                 val id = route.substringAfter("${NavigationData.manga_detail}/")
                 MangaDetailScreen(mangaId = id.toInt())
             }
-            route == NavigationData.manga_chapter -> {
-                MangaChapterScreen()
+            route.startsWith("${NavigationData.manga_chapter}/") -> {
+                val parts = route.split("/")
+                // The mangaId is at index 2 and the chapterId at index 4
+                val mangaId = parts[2]
+                val chapterId = parts[4]
+                MangaChapterScreen( mangaId = mangaId, chapterId = chapterId)
             }
             else -> {
                 NotFoundScreen(

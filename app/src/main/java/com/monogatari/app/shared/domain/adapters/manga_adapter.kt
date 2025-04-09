@@ -13,6 +13,6 @@ data class MangaAdapter(
     val viewCount: Long,
     val averageRating: Float,
     val ratingCount: Int,
-    val chapterCount: Int,
+    val chapterCount: Int?,
     val inUserFavorites: Boolean
 )

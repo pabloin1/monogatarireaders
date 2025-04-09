@@ -15,7 +15,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.monogatari.app.manga_detail.domain.adapters.MangaDetailAdapter
+import com.monogatari.app.manga_detail.domain.adapters.MangaDetailChapterAdapter
 import com.monogatari.app.manga_detail.domain.models.ChapterSortOrder
 import com.monogatari.app.manga_detail.ui.composables.chapter_section.ChaptersSection
 import com.monogatari.app.manga_detail.ui.composables.status_info.StatusInfo
@@ -26,14 +26,14 @@ import com.monogatari.app.shared.ui.composables.GlowingButton
 
 @Composable
 fun MangaDetailContent(
-    mangaDetail: MangaDetailAdapter,
+    mangaDetail: MangaDetailChapterAdapter,
     onStartReading: () -> Unit,
     onAddToLibrary: () -> Unit,
     onFavoriteClick: () -> Unit,
     onShareClick: () -> Unit,
-    onChapterSelected: (Int) -> Unit,
     sorteBy : ChapterSortOrder = ChapterSortOrder.NEWEST,
     onSortOrder :(ChapterSortOrder) -> Unit,
+    libraryString : String = "ADD TO LIBRARY",
 ) {
     Column(
         modifier = Modifier
@@ -41,13 +41,13 @@ fun MangaDetailContent(
             .verticalScroll(rememberScrollState())
     ) {
        TopContentMangaDetail(
-           mangaDetail = mangaDetail,
+           mangaDetail = mangaDetail.details,
            onFavoriteClick = onFavoriteClick,
            onShareClick = onShareClick,
        )
-        StatusInfo(mangaDetail = mangaDetail)
+        StatusInfo(mangaDetail = mangaDetail.details)
 
-        SynopsisSection(synopsis = mangaDetail.synopsis)
+        SynopsisSection(synopsis = mangaDetail.details.description)
 
         // Action buttons
         Row(
@@ -58,16 +58,17 @@ fun MangaDetailContent(
             verticalAlignment = Alignment.CenterVertically
         ) {
             GlowingButton(text =  "START READING", onClick = onStartReading, borderRadius = 10.dp)
-            CustomOutlinedButton(onClick = onAddToLibrary, text = "ADD TO LIBRARY" , borderRadius = 10.dp, fontSize = 14.sp)
+            CustomOutlinedButton(onClick = onAddToLibrary, text = libraryString , borderRadius = 10.dp, fontSize = 14.sp)
         }
 
         Spacer(modifier = Modifier.height(14.dp))
 
         ChaptersSection(
-            mangaDetail = mangaDetail,
-            onChapterSelected = onChapterSelected,
+            chapters = mangaDetail.chapters,
+            mangaId = mangaDetail.details.id.toInt(),
             onSortOrder = onSortOrder,
-            sorteBy = sorteBy
+            sorteBy = sorteBy,
+            coverImgUrl = mangaDetail.details.coverImageUrl,
         )
     }
 }

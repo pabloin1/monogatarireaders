@@ -24,6 +24,7 @@ import com.monogatari.app.router.data.states.navigateTo
 fun MangaDetailScreen(
     mangaId: Int,
 ) {
+    val router = LocalRouter.current
     val viewModel = LocalViewModelProvider.current.mangaDetailViewModel
 
     LaunchedEffect(mangaId) {
@@ -32,7 +33,6 @@ fun MangaDetailScreen(
 
     val state by viewModel.state
     val sortOrder by viewModel.sortOrder
-    val router = LocalRouter.current
 
     Box(
         modifier = Modifier
@@ -58,15 +58,33 @@ fun MangaDetailScreen(
             }
             is MangaDetailState.Success -> {
                 val mangaDetail = (state as MangaDetailState.Success).manga
+                val isFavorite = mangaDetail.details.inUserFavorites
+                val libraryText = if(isFavorite) "REMOVE FROM LIBRARY" else "ADD TO LIBRARY"
+                val onFavoriteClick = if(isFavorite) {
+                    { viewModel.deleteFavorite() }
+                } else {
+                    { viewModel.toggleFavorite() }
+                }
                 MangaDetailContent(
                     mangaDetail = mangaDetail,
-                    onStartReading = {  },
-                    onAddToLibrary = { viewModel.addToLibrary() },
-                    onFavoriteClick = { viewModel.toggleFavorite() },
+                    onStartReading = {
+                        val chapterId = mangaDetail.chapters.firstOrNull()?.mangaId ?: 0
+                        if(chapterId != 0) {
+                            router.navigateTo(
+                                NavigationData.chapterRoute(
+                                    mangaId = mangaId.toString(),
+                                    chapterId = chapterId.toString()
+                                )
+                            )
+                        }
+
+                    },
+                    onAddToLibrary = onFavoriteClick,
+                    onFavoriteClick = onFavoriteClick,
                     onShareClick = { viewModel.shareManga() },
-                    onChapterSelected = {router.navigateTo(NavigationData.manga_chapter)},
                     sorteBy = sortOrder,
-                    onSortOrder = { viewModel.updateSortOrder(it) }
+                    onSortOrder = { viewModel.updateSortOrder(it) },
+                    libraryString = libraryText
                 )
             }
             is MangaDetailState.Idle -> {}

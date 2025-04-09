@@ -10,6 +10,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -20,13 +21,21 @@ import com.monogatari.app.profile.domain.models.LibraryState
 import com.monogatari.app.profile.ui.composables.collection_section.CollectionContainer
 import com.monogatari.app.profile.ui.composables.header_section.ProfileHeader
 import com.monogatari.app.profile.ui.composables.library_section.LibrarySection
+import com.monogatari.app.router.data.states.LocalRouter
+import com.monogatari.app.router.data.states.currentRoute
 import com.monogatari.app.shared.ui.composables.CustomSnackBar
 import com.monogatari.app.shared.ui.layouts.AppLayout
 
 @Composable
 fun ProfileScreen() {
     val profileViewModel = LocalViewModelProvider.current.profileViewModel
+    val router = LocalRouter.current.currentRoute()
     val state = profileViewModel.state.value
+
+    LaunchedEffect(router){
+        profileViewModel.getInfo()
+    }
+
    AppLayout {
        Column(
            modifier = Modifier

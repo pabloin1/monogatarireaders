@@ -15,18 +15,23 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.monogatari.app.manga_detail.domain.adapters.MangaDetailAdapter
+import com.monogatari.app.manga_detail.domain.adapters.ChapterAdapter
 import com.monogatari.app.manga_detail.domain.models.ChapterSortOrder
 import com.monogatari.app.manga_detail.ui.composables.chapter_section.chapter_item.ChapterItem
 import com.monogatari.app.manga_detail.ui.composables.chapter_section.sort_dropdown.SortDropdown
+import com.monogatari.app.router.data.NavigationData
+import com.monogatari.app.router.data.states.LocalRouter
+import com.monogatari.app.router.data.states.navigateTo
 
 @Composable
 fun ChaptersSection(
-    mangaDetail : MangaDetailAdapter,
-    onChapterSelected: (Int) -> Unit,
+    chapters : List<ChapterAdapter>,
+    mangaId : Int,
     sorteBy : ChapterSortOrder = ChapterSortOrder.NEWEST,
     onSortOrder :(ChapterSortOrder) -> Unit,
+    coverImgUrl : String,
 ) {
+    val router = LocalRouter.current
     Column(
         modifier = Modifier.padding(16.dp)
     ) {
@@ -54,11 +59,15 @@ fun ChaptersSection(
         }
 
         // Chapter list
-        mangaDetail.chapters.forEach { chapter ->
+        chapters.forEach { chapter ->
             ChapterItem(
                 chapter = chapter,
-                onChapterClick = { onChapterSelected(chapter.id) },
-                coverImageResId = mangaDetail.coverImageResId,
+                onChapterClick = {
+                    router.navigateTo(
+                        NavigationData.chapterRoute(mangaId.toString(), chapter.id.toString()),
+                    )
+                },
+                coverImage = coverImgUrl,
             )
             Spacer(modifier = Modifier.height(10.dp))
         }

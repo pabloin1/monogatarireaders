@@ -35,7 +35,7 @@ fun StatusInfo(mangaDetail : MangaDetailAdapter) {
                 fontSize = 14.sp
             )
             Text(
-                text = mangaDetail.status,
+                text = if (mangaDetail.completed) "Completed" else "Ongoing",
                 color = Color.White,
                 fontSize = 14.sp
             )
@@ -44,7 +44,7 @@ fun StatusInfo(mangaDetail : MangaDetailAdapter) {
                     .padding(start = 8.dp)
                     .size(8.dp)
                     .background(
-                        if (mangaDetail.status == "Completed") Color.Green else Color.Yellow,
+                        if (mangaDetail.completed) Color.Green else Color.Yellow,
                         CircleShape
                     )
             )
@@ -54,9 +54,9 @@ fun StatusInfo(mangaDetail : MangaDetailAdapter) {
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center,
         ) {
-            StatusItem(titleValue = "Rating", value = mangaDetail.rating.toString())
+            StatusItem(titleValue = "Rating", value = mangaDetail.averageRating.toString())
             Spacer(modifier = Modifier.width(16.dp))
-            StatusItem(titleValue = "Chapters", value = mangaDetail.chapters.size.toString())
+            StatusItem(titleValue = "Chapters", value = mangaDetail.chapterCount.toString())
         }
     }
 }

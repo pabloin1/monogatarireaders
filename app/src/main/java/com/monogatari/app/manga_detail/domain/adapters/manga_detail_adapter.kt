@@ -1,14 +1,20 @@
 package com.monogatari.app.manga_detail.domain.adapters
 
+import com.monogatari.app.shared.domain.adapters.CreatorAdapter
+
 data class MangaDetailAdapter(
-    val id: Int,
-    val title: String,
-    val coverImageResId: Int,
-    val author: String,
+    val averageRating: Float,
+    val chapterCount: Int,
+    val completed: Boolean,
+    val coverImageUrl: String,
+    val createdAt: String,
+    val creator: CreatorAdapter,
+    val description: String,
     val genres: List<String>,
-    val rating: Float,
-    val status: String,
-    val synopsis: String,
-    val chapters: List<ChapterAdapter>,
-    val isTrending: Boolean = false
+    val id: Long,
+    var inUserFavorites: Boolean,
+    val ratingCount: Int,
+    val title: String,
+    val updatedAt: String,
+    val viewCount: Int
 )

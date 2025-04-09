@@ -13,9 +13,10 @@ object NavigationData {
     val register = "register"
     val not_found_screen = "NOT_FOUND_SCREEN"
     val manga_detail = "detail"
-    val manga_chapter = "chapter"
+    val manga_chapter = "chapter/manga"
     // Function to generate the detail route with a specific ID
     fun detailRoute(id: String): String = "$manga_detail/$id"
+    fun chapterRoute(mangaId: String, chapterId : String): String = "$manga_chapter/$mangaId/chapter/$chapterId"
     val home = NavBarItem(
         Icons.Default.Home,
         "Home",
