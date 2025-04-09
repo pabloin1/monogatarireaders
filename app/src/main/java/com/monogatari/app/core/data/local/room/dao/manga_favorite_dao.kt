@@ -16,9 +16,6 @@ interface MangaFavoriteDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAll(favorites: List<MangaFavoriteEntity>)
 
-    @Query("SELECT * FROM manga_favorites")
-    suspend fun getAllFavorites(): List<MangaFavoriteEntity>
-
     @Query("SELECT * FROM manga_favorites WHERE mangaId = :mangaId")
     suspend fun getFavoriteByMangaId(mangaId: Long): MangaFavoriteEntity?
 

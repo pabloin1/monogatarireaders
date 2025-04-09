@@ -4,6 +4,7 @@ import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import com.monogatari.app.core.data.local.room.database.MangaDatabase
 import com.monogatari.app.core.data.local.room.entities.ChapterEntity
+import com.monogatari.app.core.data.local.room.entities.ChapterPageEntity
 import com.monogatari.app.core.data.local.room.entities.MangaFavoriteEntity
 import com.monogatari.app.core.data.local.room.relations.MangaFavoriteWithDetails
 import com.monogatari.app.manga_detail.data.services.GetMangaChaptersService
@@ -20,6 +21,7 @@ class SyncMangaWorker(
 
     private val mangaFavoriteDao = MangaDatabase.getDatabase(context).mangaFavoriteDao()
     private val chapterDao = MangaDatabase.getDatabase(context).chapterDao()
+    private val chapterPageDao = MangaDatabase.getDatabase(context).chapterPageDao()
     private val chapterService = GetMangaChaptersService()
     private val chapterDetailService = GetMangaChapterByChapterIdService()
 
@@ -76,7 +78,18 @@ class SyncMangaWorker(
                             val imageUrls = chapterDetail.pages
                             imageUrls.forEachIndexed { index, imageUrl ->
                                 Log.d("SyncMangaWorker", "Downloading image for chapter ${chapter.id}, page $index")
-                                downloadImage(imageUrl, mangaId, chapter.id, index)
+                                val path = downloadImage(imageUrl, mangaId, chapter.id, index)
+                                if (path != null) {
+                                    chapterPageDao.insert(
+                                        ChapterPageEntity(
+                                            chapterId = chapter.id.toLong(),
+                                            pageUrl = imageUrl,
+                                            pageIndex = index,
+                                            localPath = path,
+                                            isDownloaded = true
+                                        )
+                                    )
+                                }
                             }
                         }
                     }
@@ -91,7 +104,7 @@ class SyncMangaWorker(
         }
     }
 
-    private fun downloadImage(imageUrl: String, mangaId: Int, chapterId: Int, index: Int) {
+    private fun downloadImage(imageUrl: String, mangaId: Int, chapterId: Int, index: Int) : String? {
         try {
             val imageBytes = URL(imageUrl).readBytes()
             val folder = File(context.filesDir, "offline/manga_$mangaId/chapter_$chapterId")
@@ -100,9 +113,11 @@ class SyncMangaWorker(
             val file = File(folder, "page_$index.jpg")
             file.writeBytes(imageBytes)
             Log.d("SyncMangaWorker", "Downloaded image: page_$index.jpg for manga $mangaId, chapter $chapterId")
+            return file.absolutePath
         } catch (e: Exception) {
             Log.e("SyncMangaWorker", "Error downloading image: ${e.message}")
             e.printStackTrace()
+            return null
         }
     }
 

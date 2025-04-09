@@ -1,16 +1,19 @@
 package com.monogatari.app.manga_chapter.ui.viewmodel
 
 import android.app.Application
+import android.util.Log
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
+import com.monogatari.app.core.data.local.network.NetworkManager
 import com.monogatari.app.manga_chapter.data.services.CreateCommentChapterService
 import com.monogatari.app.manga_chapter.data.services.GetChapterCommentsService
 import com.monogatari.app.manga_chapter.domain.dtos.CreateCommentDTO
 import com.monogatari.app.manga_chapter.domain.models.CommentChapterStatus
 import com.monogatari.app.manga_chapter.domain.models.MangaChapterStatus
 import com.monogatari.app.manga_chapter.domain.use_cases.GetMangaChapterInfoUseCase
+import com.monogatari.app.manga_chapter.domain.use_cases.GetMangaChapterLocalInfoUseCase
 import kotlinx.coroutines.launch
 
 class MangaChapterViewmodel(app : Application) : AndroidViewModel(app) {
@@ -24,24 +27,46 @@ class MangaChapterViewmodel(app : Application) : AndroidViewModel(app) {
     val userComment = _userComment
 
     private val _getMangaChapterInfoUseCase = GetMangaChapterInfoUseCase()
+    private val _getMangaChapterLocalInfoUseCase = GetMangaChapterLocalInfoUseCase(app)
     private val _getChapterCommentsService = GetChapterCommentsService()
     private val _createCommentChapterService = CreateCommentChapterService()
 
     fun getMangaChapterInfo(chapterId : Int){
         viewModelScope.launch {
-            try{
+            if(NetworkManager.isOnline()){
+                getNetworkInfo(chapterId)
+            }else{
+                getLocalInfo(chapterId)
+            }
+        }
+    }
+
+    private suspend fun getNetworkInfo(chapterId: Int){
+        try{
+            state.value = MangaChapterStatus.Loading
+            val mangaChapterInfo = _getMangaChapterInfoUseCase.execute(chapterId)
+            mangaChapterInfo.fold(
+                onSuccess = {
+                    state.value = MangaChapterStatus.Success(it)
+                },
+                onFailure = { error ->
+                    state.value = MangaChapterStatus.Error("Error loading manga chapters: ${error.message}")
+                }
+            )
+        }catch (e: Exception){
+            state.value = MangaChapterStatus.Error("Error loading manga chapters: ${e.message}")
+        }
+    }
+
+    private suspend fun getLocalInfo(chapterId: Int){
+        viewModelScope.launch {
+            try {
                 state.value = MangaChapterStatus.Loading
-                val mangaChapterInfo = _getMangaChapterInfoUseCase.execute(chapterId)
-                mangaChapterInfo.fold(
-                    onSuccess = {
-                        state.value = MangaChapterStatus.Success(it)
-                    },
-                    onFailure = { error ->
-                        state.value = MangaChapterStatus.Error("Error loading manga chapters: ${error.message}")
-                    }
-                )
+                val localInfo = _getMangaChapterLocalInfoUseCase.execute(chapterId)
+                state.value = MangaChapterStatus.Success(localInfo)
+                Log.d("MANGA_CHAPTER_VM", "getLocalInfo: $localInfo")
             }catch (e: Exception){
-                state.value = MangaChapterStatus.Error("Error loading manga chapters: ${e.message}")
+                state.value = MangaChapterStatus.Error("Error loading local info: ${e.message}")
             }
         }
     }

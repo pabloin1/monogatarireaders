@@ -11,8 +11,8 @@ interface ChapterPageDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAll(pages: List<ChapterPageEntity>)
 
-    @Query("SELECT * FROM chapter_pages WHERE chapterId = :chapterId ORDER BY pageIndex")
-    suspend fun getPagesForChapter(chapterId: Long): List<ChapterPageEntity>
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insert(page: ChapterPageEntity)
 
     @Query("UPDATE chapter_pages SET isDownloaded = :isDownloaded, localPath = :localPath WHERE id = :pageId")
     suspend fun updateDownloadStatus(pageId: Long, isDownloaded: Boolean, localPath: String?)
@@ -23,7 +23,7 @@ interface ChapterPageDao {
     @Query("UPDATE chapter_pages SET localPath = :localPath, isDownloaded = :isDownloaded WHERE chapterId = :chapterId AND pageIndex = :pageIndex")
     suspend fun updatePageLocalPath(chapterId: Int, pageIndex: Int, localPath: String, isDownloaded: Boolean)
 
-    @Query("SELECT * FROM chapter_pages WHERE chapterId = :chapterId ORDER BY pageIndex ASC")
+    @Query("SELECT * FROM chapter_pages WHERE chapterId = :chapterId AND localPath IS NOT NULL ORDER BY pageIndex ASC")
     suspend fun getPagesByChapterId(chapterId: Int): List<ChapterPageEntity>
 
     @Query("DELETE FROM chapter_pages WHERE chapterId = :chapterId")

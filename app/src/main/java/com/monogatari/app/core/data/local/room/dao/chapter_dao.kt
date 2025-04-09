@@ -25,9 +25,6 @@ interface ChapterDao {
     @Query("SELECT COUNT(*) FROM chapters WHERE isRead = 1")
     suspend fun getReadChaptersCount(): Int
 
-    @Query("SELECT * FROM chapters WHERE isDownloaded = 1")
-    suspend fun getDownloadedChapters(): List<ChapterEntity>
-
     @Query("UPDATE chapters SET isRead = :isRead WHERE id = :chapterId")
     suspend fun updateReadStatus(chapterId: Long, isRead: Boolean)
 
@@ -37,10 +34,6 @@ interface ChapterDao {
     @Transaction
     @Query("SELECT * FROM chapters WHERE id = :chapterId")
     suspend fun getChapterWithPages(chapterId: Long): ChapterWithPages?
-
-    @Transaction
-    @Query("SELECT * FROM chapters WHERE mangaId = :mangaId ORDER BY chapterNumber DESC")
-    suspend fun getChaptersWithPagesByMangaId(mangaId: Long): List<ChapterWithPages>
 
     @Query("SELECT * FROM chapters WHERE id = :chapterId")
     suspend fun getChapterById(chapterId: Int): ChapterEntity?

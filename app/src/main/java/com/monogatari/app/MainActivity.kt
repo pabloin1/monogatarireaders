@@ -20,13 +20,9 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         NetworkManager.init(this)
         RetroFitClient.init(this)
-        val workRequest = PeriodicWorkRequestBuilder<SyncMangaWorker>(
-            2, java.util.concurrent.TimeUnit.MINUTES
-        ).build()
+        val workRequest = OneTimeWorkRequestBuilder<SyncMangaWorker>().build()
         Log.e("MainActivity", "Enqueuing SyncMangaWorker...")
-        WorkManager.getInstance(applicationContext).enqueueUniquePeriodicWork(
-            "syncMangaWorker",
-            ExistingPeriodicWorkPolicy.KEEP,
+        WorkManager.getInstance(this).enqueue(
             workRequest
         )
         setContent {

@@ -85,6 +85,7 @@ fun MangaChapterScreen(
                 ) {
                     // Top bar with back button and title
                     TopBarButton(title = state.chapters.mangaTitle, subtitle = "Episode ${state.chapters.chapterNumber}", onBackClick = {
+                        viewModel.currentImageIndex.intValue = 0
                         route.navigateTo(NavigationData.detailRoute(mangaId))
                     })
 

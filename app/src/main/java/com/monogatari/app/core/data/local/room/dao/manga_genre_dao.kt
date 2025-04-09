@@ -11,9 +11,6 @@ interface MangaGenreDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAll(genres: List<MangaGenreEntity>)
 
-    @Query("SELECT genre FROM manga_genres WHERE mangaId = :mangaId")
-    suspend fun getGenresForManga(mangaId: Long): List<String>
-
     @Query("DELETE FROM manga_genres WHERE mangaId = :mangaId")
     suspend fun deleteGenresForManga(mangaId: Long)
 }

@@ -18,7 +18,10 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
+import com.monogatari.app.core.data.local.network.NetworkManager
+import com.monogatari.app.core.data.states.viewmodels.LocalViewModelProvider
 import com.monogatari.app.core.ui.theme.BackgroundBlue
+import java.io.File
 
 @Composable
 fun ImageSection(
@@ -28,6 +31,7 @@ fun ImageSection(
     var scale by remember { mutableFloatStateOf(1f) }
     var offsetX by remember { mutableFloatStateOf(0f) }
     var offsetY by remember { mutableFloatStateOf(0f) }
+    val isOnline = NetworkManager.isOnline()
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -35,7 +39,7 @@ fun ImageSection(
             .background(BackgroundBlue, shape = MaterialTheme.shapes.large)
     ) {
         AsyncImage(
-            model = image,
+            model = if(isOnline) image else File(image),
             contentDescription = "Image ${currentImageIndex + 1}",
             contentScale = ContentScale.Fit,
             modifier = Modifier
