@@ -1,6 +1,5 @@
 package com.monogatari.app.manga_chapter.ui.composables.image_section
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTransformGestures
 import androidx.compose.foundation.layout.Box
@@ -17,13 +16,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import coil.compose.AsyncImage
 import com.monogatari.app.core.ui.theme.BackgroundBlue
 
 @Composable
 fun ImageSection(
-    image : Int,
+    image : String,
     currentImageIndex : Int,
 ) {
     var scale by remember { mutableFloatStateOf(1f) }
@@ -35,8 +34,8 @@ fun ImageSection(
             .height(500.dp)
             .background(BackgroundBlue, shape = MaterialTheme.shapes.large)
     ) {
-        Image(
-            painter = painterResource(id = image),
+        AsyncImage(
+            model = image,
             contentDescription = "Image ${currentImageIndex + 1}",
             contentScale = ContentScale.Fit,
             modifier = Modifier

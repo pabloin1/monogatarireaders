@@ -18,7 +18,11 @@ import androidx.compose.ui.unit.dp
 import com.monogatari.app.shared.ui.composables.GlowingButton
 
 @Composable
-fun ChapterStats(modifier: Modifier = Modifier) {
+fun ChapterStats(
+    likedCount : Int = 0,
+    viewsCount : Int,
+    modifier: Modifier = Modifier
+) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -26,7 +30,7 @@ fun ChapterStats(modifier: Modifier = Modifier) {
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(
-            text = "3.4k",
+            text = likedCount.toString(),
             color = Color.Red,
         )
         Icon(
@@ -38,7 +42,7 @@ fun ChapterStats(modifier: Modifier = Modifier) {
                 .padding(start = 4.dp, end = 16.dp),
         )
         Text(
-            text = "3.6k",
+            text = viewsCount.toString(),
             modifier = Modifier.padding(start = 4.dp),
             color = Color.Gray,
         )

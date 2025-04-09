@@ -1,5 +1,6 @@
 package com.monogatari.app.manga_chapter.data.services
 
+import android.util.Log
 import com.monogatari.app.core.data.api.RetroFitClient
 import com.monogatari.app.manga_chapter.data.repositories.UpdateProgressLectureRepository
 import com.monogatari.app.manga_detail.domain.dtos.UpdateProgressLectureDto
@@ -18,12 +19,13 @@ class UpdateProgressLectureService {
                     val body = response.body()
                     if (body != null) {
                         Result.success("Manga progress updated successfully")
-                    } else if(response.code() == 500) {
-                        Result.success("Manga progress updated successfully")
-                    }else {
+                    } else {
                         Result.failure(Exception("Empty response body"))
                     }
-                }else{
+                } else if(response.code() == 500) {
+                    Log.d("UpdateProgress_TAG", "updateProgress: manga progress already updated")
+                    Result.success("Manga progress updated successfully")
+                } else{
                     val resError = "Error: ${response.code()} - ${response.message()}"
                     Result.failure(Exception(resError))
                 }

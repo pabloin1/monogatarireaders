@@ -4,22 +4,39 @@ import android.app.Application
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.AndroidViewModel
-import com.monogatari.app.R
+import androidx.lifecycle.viewModelScope
+import com.monogatari.app.manga_chapter.domain.models.MangaChapterStatus
+import com.monogatari.app.manga_chapter.domain.use_cases.GetMangaChapterInfoUseCase
+import kotlinx.coroutines.launch
 
 class MangaChapterViewmodel(app : Application) : AndroidViewModel(app) {
     private val _currentImageIndex = mutableIntStateOf(0)
     private val _userComment = mutableStateOf("")
-    private val _imageList = mutableStateOf(
-        listOf(
-            R.drawable.satoru_gojo,
-            R.drawable.tokyo_ghoul_presentation,
-            R.drawable.monogatari_logo
-        )
-    )
+    val state = mutableStateOf<MangaChapterStatus>(MangaChapterStatus.Idle)
 
-    val currentImageIndex= _currentImageIndex
+    val currentImageIndex = _currentImageIndex
     val userComment = _userComment
-    val images = _imageList
+
+    private val _getMangaChapterInfoUseCase = GetMangaChapterInfoUseCase()
+
+    fun getMangaChapterInfo(chapterId : Int){
+        viewModelScope.launch {
+            try{
+                state.value = MangaChapterStatus.Loading
+                val mangaChapterInfo = _getMangaChapterInfoUseCase.execute(chapterId)
+                mangaChapterInfo.fold(
+                    onSuccess = {
+                        state.value = MangaChapterStatus.Success(it)
+                    },
+                    onFailure = { error ->
+                        state.value = MangaChapterStatus.Error("Error loading manga chapters: ${error.message}")
+                    }
+                )
+            }catch (e: Exception){
+                state.value = MangaChapterStatus.Error("Error loading manga chapters: ${e.message}")
+            }
+        }
+    }
 
     fun onClickBefore() {
         if (_currentImageIndex.intValue > 0) {
@@ -29,7 +46,8 @@ class MangaChapterViewmodel(app : Application) : AndroidViewModel(app) {
     }
 
     fun onClickAfter() {
-        if (_currentImageIndex.intValue < _imageList.value.size - 1) {
+        val imageList = (state.value as MangaChapterStatus.Success).chapters.pages
+        if (_currentImageIndex.intValue < imageList.size - 1) {
             val newIndex = _currentImageIndex.intValue + 1
             _currentImageIndex.intValue = newIndex
         }
