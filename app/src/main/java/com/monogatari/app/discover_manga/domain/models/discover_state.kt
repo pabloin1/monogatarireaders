@@ -7,4 +7,5 @@ sealed class DiscoverState {
     data object Loading : DiscoverState()
     data class Success(val mangaList: List<MangaAdapter>) : DiscoverState()
     data class Error(val message: String) : DiscoverState()
+    data object Offline : DiscoverState()
 }

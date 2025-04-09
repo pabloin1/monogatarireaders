@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
+import com.monogatari.app.core.data.local.network.NetworkManager
 import com.monogatari.app.discover_manga.data.services.GetPopularMangaService
 import com.monogatari.app.discover_manga.domain.models.DiscoverState
 import kotlinx.coroutines.launch
@@ -14,7 +15,15 @@ class DiscoverMangaViewModel(app : Application): AndroidViewModel(app) {
     private val _getPopularMangaService = GetPopularMangaService()
 
     init {
-        getTrendingManga()
+        viewModelScope.launch {
+            NetworkManager.observeNetworkState().collect { isOnline ->
+                if (isOnline) {
+                    getTrendingManga()
+                } else {
+                    state.value = DiscoverState.Offline
+                }
+            }
+        }
     }
 
     private fun getTrendingManga() {

@@ -19,6 +19,7 @@ import com.monogatari.app.core.ui.theme.PrimaryWhite
 import com.monogatari.app.discover_manga.domain.models.DiscoverState
 import com.monogatari.app.discover_manga.ui.viewmodels.DiscoverMangaViewModel
 import com.monogatari.app.shared.ui.composables.CustomSnackBar
+import com.monogatari.app.shared.ui.composables.OfflineMode
 
 @Composable
 fun TrendingSection( viewModel: DiscoverMangaViewModel ) {
@@ -57,6 +58,9 @@ fun TrendingSection( viewModel: DiscoverMangaViewModel ) {
             }
             is DiscoverState.Error -> {
                 CustomSnackBar(text = state.message)
+            }
+            is DiscoverState.Offline -> {
+                OfflineMode()
             }
             else -> {}
         }

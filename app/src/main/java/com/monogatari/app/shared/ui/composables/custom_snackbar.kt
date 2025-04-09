@@ -10,13 +10,13 @@ import com.monogatari.app.core.ui.theme.GlowingYellow
 import com.monogatari.app.core.ui.theme.PrimaryBlack
 
 @Composable
-fun CustomSnackBar(text : String, action : @Composable () -> Unit = {}) {
+fun CustomSnackBar(text : String, action : @Composable () -> Unit = {}, modifier: Modifier = Modifier) {
     Snackbar(
-        modifier = Modifier.padding(16.dp),
+        modifier = modifier.padding(16.dp),
         content = {
             Text(
                 text = text,
-                color = PrimaryBlack
+                color = PrimaryBlack,
             )
         },
         containerColor = GlowingYellow,

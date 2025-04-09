@@ -22,7 +22,6 @@ import com.monogatari.app.router.data.states.navigateTo
 fun BottomNavigationBar( modifier: Modifier = Modifier) {
     val currentRoute = LocalRouter.current
     val routes = NavigationData.routes
-
     NavigationBar(
         modifier = modifier
             .fillMaxWidth()
