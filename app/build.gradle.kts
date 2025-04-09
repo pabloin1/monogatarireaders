@@ -71,6 +71,7 @@ dependencies {
     implementation(libs.coil.compose)
     implementation(libs.room.runtime)
     implementation(libs.room.ktx)
+    implementation(libs.androidx.work.runtime.ktx)
     ksp(libs.room.compiler)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

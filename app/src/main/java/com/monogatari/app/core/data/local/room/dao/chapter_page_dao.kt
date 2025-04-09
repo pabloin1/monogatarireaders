@@ -19,4 +19,19 @@ interface ChapterPageDao {
 
     @Query("DELETE FROM chapter_pages WHERE chapterId = :chapterId")
     suspend fun deletePagesForChapter(chapterId: Long)
+
+    @Query("UPDATE chapter_pages SET localPath = :localPath, isDownloaded = :isDownloaded WHERE chapterId = :chapterId AND pageIndex = :pageIndex")
+    suspend fun updatePageLocalPath(chapterId: Int, pageIndex: Int, localPath: String, isDownloaded: Boolean)
+
+    @Query("SELECT * FROM chapter_pages WHERE chapterId = :chapterId ORDER BY pageIndex ASC")
+    suspend fun getPagesByChapterId(chapterId: Int): List<ChapterPageEntity>
+
+    @Query("DELETE FROM chapter_pages WHERE chapterId = :chapterId")
+    suspend fun deletePagesByChapterId(chapterId: Int)
+
+    @Query("SELECT * FROM chapter_pages WHERE chapterId = :chapterId AND pageIndex = :pageIndex LIMIT 1")
+    suspend fun getPageByChapterIdAndIndex(chapterId: Int, pageIndex: Int): ChapterPageEntity?
+
+    @Query("SELECT COUNT(*) FROM chapter_pages WHERE chapterId = :chapterId AND isDownloaded = 1")
+    suspend fun getDownloadedPagesCount(chapterId: Int): Int
 }

@@ -16,7 +16,7 @@ interface ChapterDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAll(chapters: List<ChapterEntity>)
 
-    @Query("SELECT * FROM chapters WHERE mangaId = :mangaId ORDER BY chapterNumber DESC")
+    @Query("SELECT * FROM chapters WHERE mangaId = :mangaId AND id != 0 ORDER BY chapterNumber DESC")
     suspend fun getChaptersByMangaId(mangaId: Long): List<ChapterEntity>
 
     @Query("SELECT * FROM chapters WHERE id = :chapterId")
@@ -41,4 +41,13 @@ interface ChapterDao {
     @Transaction
     @Query("SELECT * FROM chapters WHERE mangaId = :mangaId ORDER BY chapterNumber DESC")
     suspend fun getChaptersWithPagesByMangaId(mangaId: Long): List<ChapterWithPages>
+
+    @Query("SELECT * FROM chapters WHERE id = :chapterId")
+    suspend fun getChapterById(chapterId: Int): ChapterEntity?
+
+    @Query("SELECT id FROM chapters WHERE mangaId = :mangaId AND chapterNumber = :chapterNumber LIMIT 1")
+    suspend fun getChapterIdByMangaAndNumber(mangaId: Int, chapterNumber: Int): Int?
+
+    @Query("SELECT * FROM chapters")
+    suspend fun getAllChapters(): List<ChapterEntity>
 }

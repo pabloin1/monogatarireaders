@@ -1,15 +1,18 @@
 package com.monogatari.app.manga_detail.ui.viewmodels
 
 import android.app.Application
+import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
+import com.monogatari.app.core.data.local.network.NetworkManager
 import com.monogatari.app.core.utils.extensions.toFormattedDate
 import com.monogatari.app.manga_detail.data.services.AddMangaFavoriteService
 import com.monogatari.app.manga_detail.data.services.DeleteMangaFavoriteService
 import com.monogatari.app.manga_detail.domain.dtos.AddMangaFavoriteDto
 import com.monogatari.app.manga_detail.domain.models.ChapterSortOrder
 import com.monogatari.app.manga_detail.domain.models.MangaDetailState
+import com.monogatari.app.manga_detail.domain.use_cases.GetMangaDetailLocalUseCase
 import com.monogatari.app.manga_detail.domain.use_cases.GetMangaDetailUseCase
 import kotlinx.coroutines.launch
 
@@ -20,22 +23,43 @@ class MangaDetailViewModel(app : Application): AndroidViewModel(app) {
     val sortOrder = _sortOrder
 
     private val _getMangaDetailUseCase = GetMangaDetailUseCase()
+    private val _getMangaDetailLocalUseCase = GetMangaDetailLocalUseCase(app)
     private val _addMangaFavoriteService = AddMangaFavoriteService()
     private val _deleteMangaFavoriteService = DeleteMangaFavoriteService()
 
     fun loadMangaDetail(mangaId: Int) {
         viewModelScope.launch {
-            _state.value = MangaDetailState.Loading
+            if(NetworkManager.isOnline()){
+                getInfoNetwork(mangaId)
+            }else{
+                getInfoLocal(mangaId)
+            }
+        }
+    }
+
+    suspend fun getInfoNetwork(mangaId: Int) {
+        try {
+            _getMangaDetailUseCase.execute(mangaId).fold(
+                onSuccess = { manga ->
+                    _state.value = MangaDetailState.Success(manga)
+                    sortChapters() },
+                onFailure = { error ->
+                    _state.value = MangaDetailState.Error("Error loading manga details: ${error.message}")
+                }
+            )
+        } catch (e: Exception) {
+            _state.value = MangaDetailState.Error("Error loading manga details: ${e.message}")
+        }
+    }
+
+    private fun getInfoLocal(mangaId: Int){
+        viewModelScope.launch {
             try {
-                _getMangaDetailUseCase.execute(mangaId).fold(
-                    onSuccess = { manga ->
-                        _state.value = MangaDetailState.Success(manga)
-                        sortChapters()
-                    },
-                    onFailure = { error ->
-                        _state.value = MangaDetailState.Error("Error loading manga details: ${error.message}")
-                    }
-                )
+                _state.value = MangaDetailState.Loading
+                val result = _getMangaDetailLocalUseCase.execute(mangaId)
+                _state.value = MangaDetailState.Success(result)
+                Log.d("MD_VM_TAG", "getInfoLocal: $result")
+                sortChapters()
             } catch (e: Exception) {
                 _state.value = MangaDetailState.Error("Error loading manga details: ${e.message}")
             }
