@@ -1,5 +1,6 @@
 package com.monogatari.app.manga_chapter.domain.use_cases
 
+import android.util.Log
 import com.monogatari.app.manga_chapter.data.services.GetMangaChapterByChapterIdService
 import com.monogatari.app.manga_chapter.data.services.UpdateProgressLectureService
 import com.monogatari.app.manga_chapter.domain.adapters.MangaChapterAdapter
@@ -36,7 +37,20 @@ class GetMangaChapterInfoUseCase {
                             )
                         },
                         onFailure = { error ->
-                            Result.failure(Exception(error.message))
+                            Log.d("GET_MANGA_CHAPTER_ERROR", "execute: error updating progress: ${error.message}")
+                            Result.success(
+                                MangaChapterAdapter(
+                                    id = detail.id,
+                                    mangaId = detail.mangaId,
+                                    mangaTitle = detail.mangaTitle,
+                                    title = detail.title,
+                                    chapterNumber = detail.chapterNumber,
+                                    description = detail.description,
+                                    publishDate = detail.publishDate,
+                                    pages = detail.pages,
+                                    viewCount = detail.viewCount,
+                                )
+                            )
                         }
                     )
                 },

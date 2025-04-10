@@ -14,7 +14,8 @@ class FcmService : FirebaseMessagingService() {
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onMessageReceived(message: RemoteMessage) {
         super.onMessageReceived(message)
-        Log.d("FCM_TAG", "onMessageReceived: ${message.notification?.title} ${message.notification?.body}")
+        Log.d("FCM_TAG", "onMessageReceivedTitle: ${message.notification?.title}")
+        Log.d("FCM_TAG", "onMessageReceivedBody: ${message.notification?.body}")
         showNotification(message.notification)
     }
 

@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
+import com.monogatari.app.core.data.local.shared_preferences.UserPreference
 import com.monogatari.app.register.data.services.RegisterUserService
 import com.monogatari.app.register.domain.dtos.RegisterUserDTO
 import com.monogatari.app.register.domain.models.RegisterState
@@ -31,7 +32,8 @@ class RegisterViewModel(app : Application) : AndroidViewModel(app) {
             username = username.value,
             email = email.value,
             password = password.value,
-            displayName = username.value
+            displayName = username.value,
+            fcmToken = UserPreference(getApplication()).getFbToken() ?: ""
         )
         if (isRegisterButtonEnabled()) {
             state.value = RegisterState.Loading
